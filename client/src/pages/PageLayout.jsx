@@ -5,7 +5,9 @@ const PageLayout = () => {
     return (
         <>
             <Header />
-            <Outlet/>
+            <div className="w-[95%] md:w-[90%] mx-auto">
+                <Outlet />
+            </div>
             <Footer />
         </>
     )
