@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+enum Role{
+  user
+  admin
+}
+
+model Customers {
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  username                String
+  email                   String @unique
+  password                String
+  orders                  Orders[]
+  customerProfiles        CustomerProfiles[]
+  reviews                 Reviews[]
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model CustomerProfiles{
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  customerId              String @db.ObjectId
+  fname                   String
+  bio                     String
+  lname                   String
+  avatar                  String?
+  facebookLink            String?
+  twitterLink             String?
+  instagramLink           String?
+  linkedinLink            String?
+  customers               Customers @relation(fields: [customerId],references: [id])
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Users {
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  username                String
+  email                   String @unique
+  password                String
+  role                    Role @default(user)
+  userProfiles            UserProfiles[]
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model UserProfiles{
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id                 String @db.ObjectId
+  fname                   String
+  bio                     String
+  lname                   String
+  avatar                  String?
+  facebookLink            String?
+  twitterLink             String?
+  instagramLink           String?
+  linkedinLink            String?
+  users                   Users @relation(fields: [user_id] , references: [id])
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Products{
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  name                    String
+  description             String
+  price                   Float
+  discount                Float
+  quantity                Float
+  category_name           String
+  availibility            String
+  size                    String?
+  color                   String?
+  thumbnail               String
+  orderItems              OrderItems[]
+  reviews                 Reviews[]
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Orders{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  customer_id String @db.ObjectId
+  order_date DateTime @default(now())
+  order_status String @default("pending")
+  shipping_address String 
+  payment String
+  total_amount Float
+  orderItems      OrderItems[]
+  customers       Customers @relation(fields: [customer_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model OrderItems {
+  id                     String @id @default(auto()) @map("_id") @db.ObjectId
+  order_id               String @db.ObjectId
+  product_id             String @db.ObjectId
+  quantity               Float 
+  price                  Float
+  products               Products @relation(fields: [product_id],references: [id])
+  orders                 Orders @relation(fields: [order_id],references: [id])
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now())
+}
+
+model Reviews {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  customer_id String @db.ObjectId
+  product_id String @db.ObjectId
+  rating Float
+  comment String
+  products  Products @relation(fields: [product_id],references: [id])
+  customers Customers @relation(fields: [customer_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+

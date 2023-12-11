@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FormatCurrency } from '../utilities/Number_Formatter';
+import { Link } from 'react-router-dom';
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	useEffect(() => {
@@ -39,11 +40,11 @@ const Products = () => {
 				<Carousel responsive={responsive}>{
 					products.map(product => {
 						return (
-							<div className='w-full' key={product?.id}>
+							<Link to={`/product-detail/${product?.id}`} className='w-full' key={product?.id} state={product}>
 								<img className='w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />
 								<h1>{product?.title}</h1>
 								<p>{FormatCurrency(product?.price)}</p>
-							</div>
+							</Link>
 						)
 					})
 				}
