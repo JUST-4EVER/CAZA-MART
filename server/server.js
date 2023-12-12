@@ -3,6 +3,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/UserRoutes');
 const cookieParser = require('cookie-parser');
 const userProfileRoutes = require('./routes/UserProfileRoutes');
+const customerRoutes = require('./routes/CustomerRoutes');
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(cookieParser())
 app.use('/api',userRoutes)
 app.use('/api',userProfileRoutes)
+app.use('/api',customerRoutes)
 
 app.listen(PORT_URL,() => {
     console.log(`listening on port ${PORT_URL}`);
