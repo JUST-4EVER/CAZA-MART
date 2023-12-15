@@ -6,14 +6,14 @@ const addUserProfile = async (req, res) => {
         const addUserProfile = await prisma.userProfiles.create({
             data: {
                 user_id: userId,
-                fname: fname,
-                lname: lname,
-                bio: bio,
-                avatar: avatar,
-                facebookLink: facebookLink,
-                instagramLink: instagramLink,
-                twitterLink: twitterLink,
-                linkedinLink: linkedinLink
+                fname: fname?.trim(),
+                lname: lname?.trim(),
+                bio: bio?.trim(),
+                avatar: avatar?.trim(),
+                facebookLink: facebookLink?.trim(),
+                instagramLink: instagramLink?.trim(),
+                twitterLink: twitterLink?.trim(),
+                linkedinLink: linkedinLink?.trim()
             }
         })
 
@@ -55,14 +55,14 @@ const updateUserProfile = async (req, res) => {
                 id: id
             },
             data: {
-                fname: fname,
-                lname: lname,
-                bio: bio,
-                avatar: avatar,
-                facebookLink: facebookLink,
-                instagramLink: instagramLink,
-                linkedinLink: linkedinLink,
-                twitterLink: twitterLink
+                fname: fname?.trim(),
+                lname: lname?.trim(),
+                bio: bio?.trim(),
+                avatar: avatar?.trim(),
+                facebookLink: facebookLink?.trim(),
+                instagramLink: instagramLink?.trim(),
+                linkedinLink: linkedinLink?.trim(),
+                twitterLink: twitterLink?.trim()
             }
         })
 

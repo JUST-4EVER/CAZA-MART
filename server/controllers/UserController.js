@@ -5,7 +5,6 @@ const registerUser = async (req,res) => {
     try {
 
         const {username , email , password , role} = req.body;
-
         const userExist = await prisma.users.findUnique({ where : { email : email}})
         if(userExist){
             return res.json({
@@ -16,10 +15,10 @@ const registerUser = async (req,res) => {
         const hashedPassword = await bcrypt.hash(password,10);
         const newUser = await prisma.users.create({
             data : {
-                username : username,
-                email : email,
+                username : username?.trim(),
+                email : email?.trim(),
                 password : hashedPassword,
-                role : role
+                role : role?.trim()
             }
         })
 
@@ -67,9 +66,9 @@ const getUsers = async (req,res) => {
 
 const updateUser = async (req , res) => {
     try {
+        
         const { username , email , role } = req.body;
         const id = req.params.id;
-        console.log(id);
         const userExist = await prisma.users.findUnique({ where : { id : id}});
         if(!userExist){
             return res.json({
@@ -82,9 +81,9 @@ const updateUser = async (req , res) => {
                 id : id
             },
             data : {
-                username : username,
-                email : email,
-                role : role
+                username : username?.trim(),
+                email : email?.trim(),
+                role : role?.trim()
             }
         })
 
@@ -150,7 +149,7 @@ const deleteUser = async (req, res) => {
 const userLogin = async (req, res) => {
     try {
         const {email , username , password} = req.body;
-        const userExist = await prisma.users.findUnique({ where : {email : email}});
+        const userExist = await prisma.users.findUnique({ where : {email : email?.trim()}});
         if(!userExist){
             return res.json({
                 status : false,

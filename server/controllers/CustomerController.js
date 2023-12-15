@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const registerCustomer = async (req, res) => {
     try {
         const { username, email, password } = req.body;
-        const customerExist = await prisma.customers.findUnique({ where: { email: email } });
+        const customerExist = await prisma.customers.findUnique({ where: { email: email?.trim() } });
         if (customerExist) {
             return res.json({
                 status: false,
@@ -15,8 +15,8 @@ const registerCustomer = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newCustomer = await prisma.customers.create({
             data: {
-                username: username,
-                email: email,
+                username: username?.trim(),
+                email: email?.trim(),
                 password: hashedPassword
             }
         })
@@ -48,7 +48,7 @@ const customerLogin = async (req, res) => {
 
         const { email, password } = req.body;
 
-        const customerExist = await prisma.customers.findUnique({ where: { email: email } });
+        const customerExist = await prisma.customers.findUnique({ where: { email: email?.trim() } });
         if (!customerExist) {
             return res.json({
                 status: false,
@@ -129,8 +129,8 @@ const updateCustomer = async (req, res) => {
                 id: id
             },
             data: {
-                username: username,
-                email: email
+                username: username?.trim(),
+                email: email?.trim()
             }
         })
 
