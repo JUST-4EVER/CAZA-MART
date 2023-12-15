@@ -4,6 +4,10 @@ const userRoutes = require('./routes/UserRoutes');
 const cookieParser = require('cookie-parser');
 const userProfileRoutes = require('./routes/UserProfileRoutes');
 const customerRoutes = require('./routes/CustomerRoutes');
+const CustomerProfileRoutes = require('./routes/CustomerProfileRoutes');
+const productRoutes = require('./routes/ProductRoutes');
+const orderRoutes = require('./routes/OrderRoutes');
+const reviewRoutes = require('./routes/ReviewRoutes');
 
 
 const app = express();
@@ -16,6 +20,10 @@ app.use(cookieParser())
 app.use('/api',userRoutes)
 app.use('/api',userProfileRoutes)
 app.use('/api',customerRoutes)
+app.use('/api',CustomerProfileRoutes)
+app.use('/api',productRoutes)
+app.use('/api',orderRoutes)
+app.use('/api',reviewRoutes)
 
 app.listen(PORT_URL,() => {
     console.log(`listening on port ${PORT_URL}`);
