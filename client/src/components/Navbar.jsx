@@ -11,7 +11,7 @@ const Navbar = () => {
 					<button className='p-3 rounded shadow bg-[#FF6F61] text-white flex flex-row gap-4' type='button'> 
 					<FaBagShopping className="inline" size={25}/> <span>Shop Now</span></button>
 			</div>
-			<div className='w-full rounded-tl-[30%] rounded-br-[30%] border-2 border-slate-100'>
+			<div className='w-full rounded-tl-[30%] rounded-br-[30%] rounded-tr-[30%] rounded-bl-[30%] border-2 border-slate-100'>
 				<img className='rounded-tr-[30%] rounded-bl-[30%]' src="/images/men.jpg" alt="" />
 			</div>
 		</div>

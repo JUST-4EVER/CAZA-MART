@@ -64,8 +64,8 @@ const customerLogin = async (req, res) => {
             })
         }
 
-        const CutomerToken = await jwt.sign({ customerId: customerExist.id }, JWT_CUSTOMER_KEY);
-        res.cookie('cutomerToken', CutomerToken, {
+        const customerToken = await jwt.sign({ customerId: customerExist.id }, JWT_CUSTOMER_KEY);
+        res.cookie('customerToken', customerToken, {
             httpOnly: true,
             secure: false,
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)
@@ -75,7 +75,7 @@ const customerLogin = async (req, res) => {
             status: true,
             message: 'login success',
             customerExist,
-            CutomerToken
+            customerToken
         })
 
 
@@ -213,6 +213,58 @@ const getCurrentCustomer = async (req, res) => {
     }
 }
 
+const customerChangePassword = async(req,res) => {
+    try {
+        const { oldPassword , newPassword} = req.body;
+        const existingCustomer = await prisma.customers.findUnique({
+            where : {
+                id : req.customerId
+            }
+        })
+
+        if(!existingCustomer){
+            return res.json({
+                status : false,
+                message : 'customer not existing'
+            })
+        }
+
+        const comparePassword = await bcrypt.compare(oldPassword , existingCustomer.password);
+        if(!comparePassword){
+            return res.json({
+                status : false,
+                message : 'invalid old password'
+            })
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updateCustomer = await prisma.customers.update({
+            where : {
+                id : req.customerId
+            },
+            data : {
+                password : hashedPassword
+            }
+        })
+        if(!updateCustomer){
+            return res.json({
+                status : false,
+                message : 'Failled changing password'
+            })
+        }
+
+        return res.json({
+            status : true,
+            message : 'password changed'
+        })
+    } catch (error) {
+        console.log('Error changing password');
+        res.json({
+            status : false,
+            message : 'Failled changing password'
+        })
+    }
+}
+
 
 module.exports = {
     registerCustomer,
@@ -220,5 +272,6 @@ module.exports = {
     getCustomers,
     updateCustomer,
     deleteCustomer,
-    getCurrentCustomer
+    getCurrentCustomer,
+    customerChangePassword
 }

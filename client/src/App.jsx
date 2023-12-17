@@ -1,5 +1,13 @@
 import { Route, Routes } from "react-router-dom"
-import { AdminLogin, Home, ItemCarts, PageLayout, ProductDetail, UserLogin, UserRegister } from "./ExportFiles"
+import { Toaster } from 'react-hot-toast';
+import {
+  About,
+  Contact,
+  CustomerChangePassword,
+  CustomerLogin, CustomerOrders, CustomerProfile, CustomerRegister, 
+  Home, ItemCarts, Myaccount, PageLayout, PersonalInformation, ProductDetail, 
+  Shop, 
+  UserLogin } from "./ExportFiles"
 const App = () => {
   return (
     <>
@@ -7,16 +15,27 @@ const App = () => {
         {/* public-routes */}
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Home />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/item-cart" element={<ItemCarts />} />
           <Route path="/products" element={<ItemCarts />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
           <Route path="/product-detail/:id" element={<ProductDetail />} />
+          <Route path="/my-account" element={<Myaccount/>}>
+            <Route index element={<CustomerOrders/>}/>
+            <Route path="customer-order" element={<CustomerOrders/>}/>
+            <Route path="customer-profile" element={<CustomerProfile/>}/>
+            <Route path="personal-information" element={<PersonalInformation/>}/>
+            <Route path="customer-change-password" element={<CustomerChangePassword/>}/>
+           
+          </Route>
         </Route>
         {/* auth routes */}
         <Route path="/user-login" element={<UserLogin />} />
-        <Route path="/user-register" element={<UserRegister />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/customer-register" element={<CustomerRegister />} />
+        <Route path="/customer-login" element={<CustomerLogin />} />
       </Routes>
+      <Toaster />
     </>
   )
 }

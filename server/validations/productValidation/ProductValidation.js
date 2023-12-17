@@ -8,8 +8,8 @@ exports.productValidations = (req,res,next) => {
         quantity:joi.number().required(),
         category_name : joi.string().trim().required(), 
         availibility : joi.string().trim().required(), 
-        size : joi.string().trim().required(), 
-        color : joi.string().trim().required(), 
+        size : joi.array().trim().required(), 
+        color : joi.array().trim().required(), 
         thumbnail : joi.string().trim().required()
     })
     const {error} = productValidations.validate(req.body);

@@ -1,9 +1,13 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik"
 import { useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import * as Yup from 'yup'
-const AdminLogin = () => {
+import { useLoginCustomerMutation } from "../../redux/slices/CustomerSlices";
+import toast from "react-hot-toast";
+const CustomerLogin = () => {
+    const navigate = useNavigate();
+    const [ loginCustomer ] = useLoginCustomerMutation();
     const [showPassword, setShowPassword] = useState('password');
     const initialValues = {
         email: '',
@@ -14,7 +18,19 @@ const AdminLogin = () => {
         password: Yup.string().required("Password is required")
     })
     const handleSubmit = (values) => {
-        console.log(values);
+        const {email , password} = values;
+        loginCustomer({email, password})
+        .then((res) => {
+            const status = res?.data?.status;
+            if(status){
+                toast.success(res?.data?.message);
+                navigate('/');
+            }else{
+                toast.error(res?.data?.message);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
     }
     return (
         <div className='w-full p-3'>
@@ -28,7 +44,7 @@ const AdminLogin = () => {
                         initialValues={initialValues}>
                         <Form className="w-full lg:w-[80%] space-y-5">
                             <h1 className="flex flex-row justify-between items-center gap-5">
-                                <span>Admin Login</span>
+                                <span>Customer Login</span>
                                 <Link to='/user-login' className="text-red-500">Are you user ? </Link>
                             </h1>
                             <div className="w-full space-y-2">
@@ -45,6 +61,11 @@ const AdminLogin = () => {
                                 }
                                 <ErrorMessage component="div" name="password" className="text-red-500" />
                             </div>
+                            <p className="space-x-3">
+                                <span>Don’t have an account?</span>
+                                <Link to='/customer-register' className="text-red-500">Sign up</Link>
+                                <span>here</span>
+                            </p>
                             <button className="px-3 py-2 rounded shadow bg-[#FF6F61] text-white w-full" type="submit">Login</button>
                         </Form>
                     </Formik>
@@ -54,4 +75,4 @@ const AdminLogin = () => {
     )
 }
 
-export default AdminLogin
+export default CustomerLogin

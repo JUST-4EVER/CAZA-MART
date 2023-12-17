@@ -32,6 +32,10 @@ model CustomerProfiles{
   fname                   String
   bio                     String
   lname                   String
+  age                     Int
+  address                 String
+  phone                   Int
+  sex                     String
   avatar                  String?
   facebookLink            String?
   twitterLink             String?
@@ -59,6 +63,10 @@ model UserProfiles{
   fname                   String
   bio                     String
   lname                   String
+  age                     Int
+  address                 String
+  phone                   Int
+  sex                     String
   avatar                  String?
   facebookLink            String?
   twitterLink             String?
@@ -78,8 +86,8 @@ model Products{
   quantity                Float
   category_name           String
   availibility            String
-  size                    String?
-  color                   String?
+  size                    String[]
+  color                   String[]
   thumbnail               String
   orderItems              OrderItems[]
   reviews                 Reviews[]
