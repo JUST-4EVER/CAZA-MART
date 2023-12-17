@@ -1,7 +1,7 @@
-import { ErrorMessage, Field, Form, Formik } from "formik"
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import * as Yup from 'yup'
 const UserLogin = () => {
     const [showPassword, setShowPassword] = useState('password');
@@ -28,8 +28,8 @@ const UserLogin = () => {
                         initialValues={initialValues}>
                         <Form className="w-full lg:w-[80%] space-y-5">
                             <h1 className="flex flex-row justify-between items-center gap-5">
-                                <span>User Login</span>
-                                <Link to='/admin-login' className="text-red-500">Are you admin ? </Link>
+                                <span>user Login</span>
+                                <Link to='/customer-login' className="text-red-500">Are you customer ? </Link>
                             </h1>
                             <div className="w-full space-y-2">
                                 <Field type='text' placeholder='Enter email' name="email"
@@ -45,11 +45,6 @@ const UserLogin = () => {
                                 }
                                 <ErrorMessage component="div" name="password" className="text-red-500" />
                             </div>
-                            <p className="space-x-3">
-                                <span>Don’t have an account?</span>
-                                <Link to='/user-register' className="text-red-500">Sign up</Link>
-                                <span>here</span>
-                            </p>
                             <button className="px-3 py-2 rounded shadow bg-[#FF6F61] text-white w-full" type="submit">Login</button>
                         </Form>
                     </Formik>

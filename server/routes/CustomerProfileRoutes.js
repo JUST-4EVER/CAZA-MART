@@ -5,8 +5,8 @@ const { addCustomerProfileValidations } = require('../validations/customerProfil
 
 const CustomerProfileRoutes = express.Router();
 CustomerProfileRoutes.post('/customerProfile/add',customerAuthentication,addCustomerProfileValidations,addCustomerProfile);
-CustomerProfileRoutes.put('/customerProfile/:id',addCustomerProfileValidations,updateCustomerProfile);
-CustomerProfileRoutes.delete('/customerProfile/:id',addCustomerProfileValidations,deleteCustomerProfile);
-CustomerProfileRoutes.get('/customerProfiles',getCustomersProfile);
-CustomerProfileRoutes.get('/customerProfile',customerAuthentication,getCurrentCustomerProfile);
+CustomerProfileRoutes.put('/customerProfile/:id',customerAuthentication,addCustomerProfileValidations,updateCustomerProfile);
+CustomerProfileRoutes.delete('/customerProfile/:id',customerAuthentication,addCustomerProfileValidations,deleteCustomerProfile);
+CustomerProfileRoutes.get('/customerProfiles',customerAuthentication,getCustomersProfile);
+CustomerProfileRoutes.get('/customerProfile',customerAuthentication,customerAuthentication,getCurrentCustomerProfile);
 module.exports = CustomerProfileRoutes;

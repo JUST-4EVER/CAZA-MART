@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { JWT_CUSTOMER_KEY } = require('../lib/lib');
 const customerAuthentication = (req , res , next) => {
-    const token = req.headers.authorization || req.cookies.cutomerToken;
+    const token = req.headers.authorization || req.cookies.customerToken;
     if(!token){
         return res.status(401).json({
             status : false,

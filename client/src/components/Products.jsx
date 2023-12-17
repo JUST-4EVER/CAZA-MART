@@ -30,7 +30,7 @@ const Products = () => {
 		},
 		mobile: {
 			breakpoint: { max: 464, min: 0 },
-			items: 1
+			items: 2
 		}
 	};
 	return (
@@ -41,9 +41,9 @@ const Products = () => {
 					products.map(product => {
 						return (
 							<Link to={`/product-detail/${product?.id}`} className='w-full' key={product?.id} state={product}>
-								<img className='w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />
-								<h1>{product?.title}</h1>
-								<p>{FormatCurrency(product?.price)}</p>
+								<img className='w-40 h-40 md:w-64 md:h-64 bg-center object-center' src={product?.thumbnail} alt="" />
+								<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>
+								<p className='text-sm font-light md:text-base md:font-normal'>{FormatCurrency(product?.price)}</p>
 							</Link>
 						)
 					})
