@@ -1,19 +1,55 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
-import { IoCloudUploadOutline } from "react-icons/io5"
+import { IoCloudUploadOutline } from 'react-icons/io5';
 import * as Yup from 'yup'
-import { useGetCurrentCustomerProfileQuery, 
-    useRegisterCustomerProfileMutation, 
+import {
+    useGetCurrentCustomerProfileQuery,
+    useRegisterCustomerProfileMutation,
     useUpdateCustomerProfileMutation
- } from "../redux/slices/CustomerProfileSlices"
-import toast, {} from 'react-hot-toast'
+} from "../redux/slices/CustomerProfileSlices"
+import toast from 'react-hot-toast'
 import { useGetCurrentCustomerQuery } from "../redux/slices/CustomerSlices"
+import { useEffect, useRef, useState } from "react"
 const PersonalInformation = () => {
     const { data: currentCustomer = [] } = useGetCurrentCustomerProfileQuery()
-    const [ registerCustomerProfile ] = useRegisterCustomerProfileMutation();
+    const [registerCustomerProfile] = useRegisterCustomerProfileMutation();
     const [updateCustomerProfile] = useUpdateCustomerProfileMutation();
     const customerProfileStatus = currentCustomer?.status || [];
     const currentCustomerProfile = currentCustomer?.currentCustomerProfile || [];
-    const { data : customer = {} } = useGetCurrentCustomerQuery();
+    const { data: customer = {} } = useGetCurrentCustomerQuery();
+    const [images, setImages] = useState(null);
+    const cloudinaryRef = useRef();
+    const widgetRef = useRef();
+    console.log('my images', images);
+    const setupCloudinaryWidget = () => {
+        if (window.cloudinary) {
+            cloudinaryRef.current = window.cloudinary;
+            widgetRef.current = cloudinaryRef.current.createUploadWidget(
+                {
+                    cloudName: import.meta.env.VITE_APP_CLOUD_NAME,
+                    uploadPreset: import.meta.env.VITE_APP_UPLOAD_PRESET,
+                    maxFiles: 30,
+                },
+                (err, result) => {
+                    if (err) {
+                        console.error(err);
+                    } else if (result.event === "success") {
+                        // setImages((prevImages) => [...prevImages, result.info.secure_url]);
+                        setImages(result.info.secure_url);
+                    }
+                }
+            );
+        }
+    };
+
+    useEffect(() => {
+        setupCloudinaryWidget();
+    }, []);
+
+
+    const handleImageUpload = () => {
+        widgetRef.current?.open();
+    };
+
     const initialValues = {
         username: customer?.customer?.username || '',
         email: customer?.customer?.email || '',
@@ -22,7 +58,7 @@ const PersonalInformation = () => {
         phone: currentCustomerProfile?.phone || '',
         sex: currentCustomerProfile?.sex || '',
         address: currentCustomerProfile?.address || '',
-        age: currentCustomerProfile?.age ||'',
+        age: currentCustomerProfile?.age || '',
         facebookLink: currentCustomerProfile?.facebookLink || '',
         twitterLink: currentCustomerProfile?.twitterLink || '',
         instagramLink: currentCustomerProfile?.instagramLink || '',
@@ -40,37 +76,39 @@ const PersonalInformation = () => {
     const handleSubmit = (values) => {
         const id = currentCustomerProfile?.id
         const {
-            username , email,
-            fname,lname,phone,sex, address,age,
-            facebookLink,twitterLink,instagramLink,linkedinLink,bio,
+            username, email,
+            fname, lname, phone, sex, address, age,
+            facebookLink, twitterLink, instagramLink, linkedinLink, bio,
         } = values;
-        if(customerProfileStatus != true && !id){
+        if (customerProfileStatus != true && !id) {
             registerCustomerProfile({
-                fname,lname,phone,sex, address,age,
-                facebookLink,twitterLink,instagramLink,linkedinLink,bio,
+                fname, lname, phone, sex, address, age,
+                facebookLink, twitterLink, instagramLink, linkedinLink, bio,
+                avatar: images
             }).then((res) => {
                 const status = res.data.status;
-                if(status){
+                if (status) {
                     toast.success(res?.data?.message)
-                }else{
+                } else {
                     toast.error(res?.data?.message)
                 }
             }).catch((err) => {
                 console.log(err);
             })
-        }else{
+        } else {
             updateCustomerProfile({
                 id,
-                updateCustomerProfile : {
-                    username , email,
-                    fname,lname,phone,sex, address,age,
-                    facebookLink,twitterLink,instagramLink,linkedinLink,bio,
+                updateCustomerProfile: {
+                    username, email,
+                    fname, lname, phone, sex, address, age,
+                    facebookLink, twitterLink, instagramLink, linkedinLink, bio,
+                    avatar: images
                 }
             }).then((res) => {
                 const status = res.data.status;
-                if(status){
+                if (status) {
                     toast.success(res?.data?.message)
-                }else{
+                } else {
                     toast.error(res?.data?.message)
                 }
             }).catch((err) => {
@@ -82,18 +120,18 @@ const PersonalInformation = () => {
         <div className="w-full bg-white shadow rounded p-3 space-y-3">
             <div className="w-full">
                 <h1 className="w-full text-2xl p-4">Personal Information</h1>
+                <div className="w-full md:w-[30%] mx-auto p-3 rounded">
+                    <button onClick={handleImageUpload}>
+                        <IoCloudUploadOutline size={100} />
+                    </button>
+                    <p className="w-full text-center text-2xl"> Upload Image</p>
+                </div>
                 <Formik
                     enableReinitialize
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                     initialValues={initialValues}>
                     <Form className="w-full space-y-4 p-4">
-                        <div className="w-full md:w-[30%] mx-auto p-3 rounded">
-                            <IoCloudUploadOutline className="inline lg:ml-16" size={100} />
-                            <p className="w-full text-center text-2xl"> Upload Image</p>
-                        </div>
-
-
                         {
                             customerProfileStatus == true && <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-3">
                                 <div className="w-full space-y-2">

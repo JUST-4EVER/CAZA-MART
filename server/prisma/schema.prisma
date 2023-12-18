@@ -86,8 +86,8 @@ model Products{
   quantity                Float
   category_name           String
   availibility            String
-  size                    String[]
-  color                   String[]
+  size                    String
+  color                   String
   thumbnail               String
   orderItems              OrderItems[]
   reviews                 Reviews[]

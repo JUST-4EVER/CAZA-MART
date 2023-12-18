@@ -3,6 +3,9 @@ import { useEffect, useState } from "react"
 import { IoIosAdd, IoIosArrowForward } from "react-icons/io"
 import { Link } from "react-router-dom"
 import { FormatCurrency } from "../utilities/Number_Formatter";
+import { CiShoppingCart } from "react-icons/ci";
+import { MdGridView } from "react-icons/md";
+import Skeleton from "react-loading-skeleton";
 
 const Shop = () => {
     const [filters, setToggleFilter] = useState(false);
@@ -95,10 +98,23 @@ const Shop = () => {
                 {
                     products?.map(product => {
                         return (
-                            <Link to={`/product-detail/${product?.id}`} className='w-full' key={product?.id} state={product}>
-                                <img className='w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />
-                                <h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>
-                                <p className='text-sm font-light md:text-base md:font-normal'>{FormatCurrency(product?.price)}</p>
+                            <Link to={`/product-detail/${product?.id}`} className='w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out' key={product?.id} state={product}>
+                                {product?.thumbnail ? (<img className='w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />)
+                                    : (<Skeleton className="w-64 h-64" />)}
+                                <div className='mt-3 space-y-3'>
+
+                                    {product?.title ? (<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>)
+                                        : (<Skeleton className="w-full" />)}
+                                    <p className='w-full flex flex-row justify-start items-center gap-5 text-sm font-light md:text-base md:font-normal'>
+                                        {product?.price ? (<span>{FormatCurrency(product?.price)}</span>) : (<Skeleton className="w-full" />)}
+                                        {product?.price ? (<span className=' font-thin line-through'>{FormatCurrency(product?.price)}</span>) : (<Skeleton className="w-full" />)}
+                                    </p>
+                                    <div className='w-full flex flex-row justify-start items-center gap-4'>
+                                        {product?.price ? (<CiShoppingCart className='text-[#FF6F61]' size={27} />) : (<Skeleton className="w-10 h-10 rounded-full" />)}
+                                        {product?.price ? (<MdGridView className='text-[#FF6F61]' size={20} />) : (<Skeleton className="w-10 h-10 rounded-full" />)}
+
+                                    </div>
+                                </div>
                             </Link>
                         )
                     })

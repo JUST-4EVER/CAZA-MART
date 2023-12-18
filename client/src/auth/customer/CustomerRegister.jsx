@@ -70,7 +70,7 @@ const CustomerRegister = () => {
               </div>
               <p className="space-x-3">
                 <span> Already have an account?</span>
-                <Link to='/customer-register' className="text-red-500">Sign In</Link>
+                <Link to='/customer-login' className="text-red-500">Sign In</Link>
                 <span>here</span>
               </p>
               <button className="px-3 py-2 rounded shadow bg-[#FF6F61] text-white w-full" type="submit">Register</button>
