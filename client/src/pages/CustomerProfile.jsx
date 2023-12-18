@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 import { useGetCurrentCustomerQuery } from "../redux/slices/CustomerSlices";
 import { useGetCurrentCustomerProfileQuery } from "../redux/slices/CustomerProfileSlices";
 import { IoIosArrowForward } from "react-icons/io";
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const CustomerProfile = () => {
     const { data: currentCustomer = [] } = useGetCurrentCustomerProfileQuery()
     const { data: customer = {} } = useGetCurrentCustomerQuery();
@@ -19,13 +20,28 @@ const CustomerProfile = () => {
             </div>
             <div className="w-full p-5 bg-white shadow rounded
             flex flex-col lg:flex-row justify-start items-start gap-5">
-                <img className="w-full lg:w-32 lg:h-32 rounded" src="/images/men.jpg" alt="" />
+                {customerProfile?.avatar ? (
+                    <img className="w-full lg:w-32 lg:h-32 rounded" src={customerProfile.avatar} alt="" />
+                ) : (
+                    <Skeleton className="w-full lg:w-32 lg:h-32 rounded" />
+                )}
                 <div className="space-y-3">
                     <div>
-                        <p className=" text-xl">{customer?.customer?.username}</p>
-                        <p className=" font-light">{customer?.customer?.email}</p>
+                        {
+                            customer?.customer?.username ? (
+                                <p className=" text-xl">{customer?.customer?.username}</p>
+                            ) : (<Skeleton className="w-96" />)
+                        }
+
+                        {
+                            customer?.customer?.email ? (
+                                <p className=" font-light">{customer?.customer?.email}</p>
+                            ) : (<Skeleton className="w-96" />)
+                        }
                     </div>
-                    <p>{customerProfile?.bio}</p>
+                    {
+                        customerProfile?.bio ? (customerProfile?.bio) : (<Skeleton className="w-96" />)
+                    }
                 </div>
             </div>
 
@@ -36,42 +52,47 @@ const CustomerProfile = () => {
                 </div>
 
                 <div className="w-full space-y-3">
-                    <p className="w-full">
+                    {customerProfile?.fname ? (<p className="w-full">
                         <span className=" font-light text-end">Name : </span>
                         <span className="text-start">{customerProfile?.fname}</span>
                         <span className="text-start">{customerProfile?.lname}</span>
-                    </p>
-                    <p className="w-full">
+                    </p>) : (<Skeleton className="w-full" />)}
+
+                    {customer?.customer?.email ? (<p className="w-full">
                         <span className=" font-light text-end">Email : </span>
                         <span className="text-start">{customer?.customer?.email}</span>
-                    </p>
-                    <p className="w-full">
+                    </p>) : (<Skeleton className="w-full" />)}
+
+                    {customerProfile?.phone ? (<p className="w-full">
                         <span className=" font-light text-end">Phone : </span>
                         <span className="text-start">{customerProfile?.phone}</span>
-                    </p>
-                    <p className="w-full">
+                    </p>) : (<Skeleton className="w-full" />)}
+                    {customerProfile?.address ? (<p className="w-full">
                         <span className=" font-light text-end">Address : </span>
                         <span className="text-start">{customerProfile?.address}</span>
-                    </p>
+                    </p>) : (<Skeleton className="w-full" />)}
                 </div>
                 <hr className="w-full" />
                 <div className="w-full">
                     <h1 className="text-2xl">Social Meia Links</h1>
                     <div className="mt-5 w-full flex flex-row justify-start items-center gap-3">
                         {
-                            customerProfile?.facebookLink && <Link to={`https://www.facebook.com/${customerProfile?.facebookLink}`} target="_blank"><FaFacebook className="inline" size={20} /></Link>
+                            customerProfile?.facebookLink ?
+                                (<Link to={`https://www.facebook.com/${customerProfile?.facebookLink}`} target="_blank"><FaFacebook className="inline" size={20} /></Link>)
+                                : (<Skeleton className="w-8 h-8 rounded-full" />)
                         }
                         {
-                            customerProfile?.twitterLink && <Link to={`https://twitter.com/${customerProfile?.twitterLink}`} target="_blank"><FaTwitter className="inline" size={20} /></Link>
+                            customerProfile?.twitterLink ? (<Link to={`https://twitter.com/${customerProfile?.twitterLink}`} target="_blank"><FaTwitter className="inline" size={20} /></Link>)
+                                : (<Skeleton className="w-8 h-8 rounded-full" />)
                         }
                         {
-                            customerProfile?.instagramLink && <Link to={`https://www.instagram.com/${customerProfile?.instagramLink}`} target="_blank"><FaInstagram className="inline" size={20} /></Link>
+                            customerProfile?.instagramLink ? (<Link to={`https://www.instagram.com/${customerProfile?.instagramLink}`} target="_blank"><FaInstagram className="inline" size={20} /></Link>)
+                                : (<Skeleton className="w-8 h-8 rounded-full" />)
                         }
                         {
-                            customerProfile?.linkedinLink && <Link to={`https://www.linkedin.com/in/${customerProfile?.linkedinLink}`} target="_blank"><FaLinkedin className="inline" size={20} /></Link>
+                            customerProfile?.linkedinLink ? (<Link to={`https://www.linkedin.com/in/${customerProfile?.linkedinLink}`} target="_blank"><FaLinkedin className="inline" size={20} /></Link>)
+                                : (<Skeleton className="w-8 h-8 rounded-full" />)
                         }
-
-
                     </div>
                 </div>
             </div>

@@ -4,6 +4,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FormatCurrency } from '../utilities/Number_Formatter';
 import { Link } from 'react-router-dom';
+import { CiShoppingCart } from "react-icons/ci";
+import { MdGridView } from "react-icons/md";
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	useEffect(() => {
@@ -40,10 +42,19 @@ const Products = () => {
 				<Carousel responsive={responsive}>{
 					products.map(product => {
 						return (
-							<Link to={`/product-detail/${product?.id}`} className='w-full' key={product?.id} state={product}>
+							<Link to={`/product-detail/${product?.id}`} className='w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out' key={product?.id} state={product}>
 								<img className='w-40 h-40 md:w-64 md:h-64 bg-center object-center' src={product?.thumbnail} alt="" />
-								<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>
-								<p className='text-sm font-light md:text-base md:font-normal'>{FormatCurrency(product?.price)}</p>
+								<div className='mt-3 space-y-3'>
+									<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>
+									<p className='w-full flex flex-row justify-start items-center gap-5 text-sm font-light md:text-base md:font-normal'>
+										<span>{FormatCurrency(product?.price)}</span>
+										<span className=' font-thin line-through'>{FormatCurrency(product?.price)}</span>
+									</p>
+									<div className='w-full flex flex-row justify-start items-center gap-4'>
+										<CiShoppingCart className='text-[#FF6F61]' size={27} />
+										<MdGridView className='text-[#FF6F61]'  size={20}/>
+									</div>
+								</div>
 							</Link>
 						)
 					})
