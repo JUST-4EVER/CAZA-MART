@@ -6,6 +6,8 @@ import {
   Contact,
   CustomerChangePassword,
   CustomerLogin, CustomerOrders, CustomerProfile, CustomerRegister,
+  Dashboard,
+  DashboardLayouts,
   Home, ItemCarts, Myaccount, PageLayout, PersonalInformation, ProductDetail,
   Shop,
   UserLogin
@@ -15,6 +17,10 @@ const App = () => {
     <SkeletonTheme baseColor="#313131" highlightColor="#525252">
       <>
         <Routes>
+          {/* auth routes */}
+          <Route path="/user-login" element={<UserLogin />} />
+          <Route path="/customer-register" element={<CustomerRegister />} />
+          <Route path="/customer-login" element={<CustomerLogin />} />
           {/* public-routes */}
           <Route path="/" element={<PageLayout />}>
             <Route index element={<Home />} />
@@ -33,10 +39,12 @@ const App = () => {
 
             </Route>
           </Route>
-          {/* auth routes */}
-          <Route path="/user-login" element={<UserLogin />} />
-          <Route path="/customer-register" element={<CustomerRegister />} />
-          <Route path="/customer-login" element={<CustomerLogin />} />
+          {/* dashboard route */}
+          <Route path="/dashboard" element={<DashboardLayouts/>}>
+            <Route index element={<Dashboard/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
+
+          </Route>
         </Routes>
         <Toaster />
       </>
