@@ -6,15 +6,29 @@ import {
   Contact,
   CustomerChangePassword,
   CustomerLogin, CustomerOrders, CustomerProfile, CustomerRegister,
-  Home, ItemCarts, Myaccount, PageLayout, PersonalInformation, ProductDetail,
+  Customers,
+  Dashboard,
+  DashboardLayouts,
+  Home, ItemCarts, Myaccount, Orders, PageLayout, Payments, PersonalInformation, Product, ProductDetail,
+  Reviews,
   Shop,
-  UserLogin
+  Tasks,
+  UserLogin,
+  Users
 } from "./ExportFiles"
+import { useState } from "react";
 const App = () => {
+  const [showMenu, setShowMenu] = useState(true);
+  const hideMenu = () => setShowMenu(true);
+  const handleShowMenu = () => setShowMenu(!showMenu);
   return (
     <SkeletonTheme baseColor="#313131" highlightColor="#525252">
       <>
         <Routes>
+          {/* auth routes */}
+          <Route path="/user-login" element={<UserLogin />} />
+          <Route path="/customer-register" element={<CustomerRegister />} />
+          <Route path="/customer-login" element={<CustomerLogin />} />
           {/* public-routes */}
           <Route path="/" element={<PageLayout />}>
             <Route index element={<Home />} />
@@ -33,10 +47,18 @@ const App = () => {
 
             </Route>
           </Route>
-          {/* auth routes */}
-          <Route path="/user-login" element={<UserLogin />} />
-          <Route path="/customer-register" element={<CustomerRegister />} />
-          <Route path="/customer-login" element={<CustomerLogin />} />
+          {/* dashboard route */}
+          <Route path="/dashboard" element={<DashboardLayouts hideMenu={hideMenu} handleShowMenu={handleShowMenu} showMenu={showMenu} setShowMenu={setShowMenu} />}>
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<Product />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="users" element={<Users />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="tasks" element={<Tasks />} />
+          </Route>
         </Routes>
         <Toaster />
       </>
