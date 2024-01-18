@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom"
 import DashboardHeader from "./DashboardHeader"
 import DashboardSidebar from "./DashboardSidebar"
 
-const DashboardLayouts = () => {
+const DashboardLayouts = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) => {
   return (
     <div className="w-full">
-        <DashboardSidebar/>
-        <div className="w-full">
-            <DashboardHeader/>
-            <Outlet/>
-        </div>
+      <DashboardSidebar hideMenu={hideMenu} handleShowMenu={handleShowMenu} showMenu={showMenu} setShowMenu={setShowMenu} />
+      <div className="w-full">
+        <DashboardHeader hideMenu={hideMenu} handleShowMenu={handleShowMenu} showMenu={showMenu} setShowMenu={setShowMenu} />
+        <Outlet />
+      </div>
     </div>
   )
 }
