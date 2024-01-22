@@ -12,7 +12,7 @@ const Navbar = () => {
 					<FaBagShopping className="inline" size={25}/> <span>Shop Now</span></button>
 			</div>
 			<div className='w-full rounded-tl-[30%] rounded-br-[30%] rounded-tr-[30%] rounded-bl-[30%] border-2 border-slate-100'>
-				<img className='rounded-tr-[30%] rounded-bl-[30%]' src="/images/men.jpg" alt="" />
+				<img className='rounded-tr-[30%] rounded-bl-[30%]' src="/public/images/men.jpg" alt="" />
 			</div>
 		</div>
 	)

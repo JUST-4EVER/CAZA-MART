@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const registerUser = async (req,res) => {
     try {
 
-        const {username , email , password , role} = req.body;
+        const {username , email , password , role,status} = req.body;
         const userExist = await prisma.users.findUnique({ where : { email : email}})
         if(userExist){
             return res.json({
@@ -18,7 +18,8 @@ const registerUser = async (req,res) => {
                 username : username?.trim(),
                 email : email?.trim(),
                 password : hashedPassword,
-                role : role?.trim()
+                role : role?.trim(),
+                status : status?.trim()
             }
         })
 
@@ -67,7 +68,7 @@ const getUsers = async (req,res) => {
 const updateUser = async (req , res) => {
     try {
         
-        const { username , email , role } = req.body;
+        const { username , email , role , status } = req.body;
         const id = req.params.id;
         const userExist = await prisma.users.findUnique({ where : { id : id}});
         if(!userExist){
@@ -83,7 +84,8 @@ const updateUser = async (req , res) => {
             data : {
                 username : username?.trim(),
                 email : email?.trim(),
-                role : role?.trim()
+                role : role?.trim(),
+                status : status?.trim(),
             }
         })
 

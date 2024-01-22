@@ -2,25 +2,25 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../BASE_URL";
 import Cookies from "js-cookie";
 const setToken = (token) => {
-    Cookies.set('UserToken',token);
+    Cookies.set('UserToken', token);
 }
 const getToken = () => {
     return Cookies.get('userToken');
 }
 export const UserSlices = createApi({
-    reducerPath : 'users',
-    baseQuery : fetchBaseQuery({
-        baseUrl : BASE_URL,
-        prepareHeaders : (headers) => {
+    reducerPath: 'users',
+    baseQuery: fetchBaseQuery({
+        baseUrl: BASE_URL,
+        prepareHeaders: (headers) => {
             const token = getToken();
-            if(token){
-                headers.set('Authorization',token);
+            if (token) {
+                headers.set('Authorization', token);
             }
             return headers;
         }
     }),
-    tagTypes : ['user'],
-    endpoints : (builder) => ({
+    tagTypes: ['user'],
+    endpoints: (builder) => ({
         registerUser: builder.mutation({
             query: (newUser) => ({
                 url: 'user/register',
@@ -37,12 +37,12 @@ export const UserSlices = createApi({
                 method: 'POST',
                 body: loginUser
             }),
-            onQueryStarted : async (args , {queryFulfilled}) => {
+            onQueryStarted: async (args, { queryFulfilled }) => {
                 try {
                     const token = await queryFulfilled;
-                    if(token){
+                    if (token) {
                         setToken(token.data);
-                        console.log('userToken',token.data);
+                        console.log('userToken', token.data);
                     }
                 } catch (error) {
                     console.log(error);
@@ -54,7 +54,7 @@ export const UserSlices = createApi({
 
 
         updateUser: builder.mutation({
-            query: ({id , updateUser}) => ({
+            query: ({ id, updateUser }) => ({
                 url: `user/${id}`,
                 method: 'PUT',
                 body: updateUser
@@ -72,24 +72,33 @@ export const UserSlices = createApi({
         }),
 
 
-        getUsers : builder.query({
-            query : () => {
+        getUsers: builder.query({
+            query: () => {
                 return {
-                    url : 'users',
-                    method : 'GET',
+                    url: 'users',
+                    method: 'GET',
                 }
             },
-            providesTags : ['user']
+            providesTags: ['user']
         }),
 
-        getCurrentUser : builder.query({
-            query : () => {
+        getCurrentUser: builder.query({
+            query: () => {
                 return {
-                    url : 'user/current',
-                    method : 'GET',
+                    url: 'user/current',
+                    method: 'GET',
                 }
             },
-            providesTags : ['user']
+            providesTags: ['user']
         })
     })
-}) 
+})
+
+
+export const {
+    useRegisterUserMutation,
+    useDeleteUserMutation,
+    useUpdateUserMutation,
+    useGetCurrentUserQuery,
+    useGetUsersQuery
+} = UserSlices;
