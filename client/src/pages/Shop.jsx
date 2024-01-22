@@ -99,8 +99,8 @@ const Shop = () => {
                     products?.map(product => {
                         return (
                             <Link to={`/product-detail/${product?.id}`} className='w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out' key={product?.id} state={product}>
-                                {product?.thumbnail ? (<img className='w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />)
-                                    : (<Skeleton className="w-64 h-64" />)}
+                                {product?.thumbnail ? (<img className='w-full lg:w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />)
+                                    : (<Skeleton className="w-ull lg:w-64 h-64" />)}
                                 <div className='mt-3 space-y-3'>
 
                                     {product?.title ? (<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>)

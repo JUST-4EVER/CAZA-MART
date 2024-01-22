@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { CustomerSlices } from "./slices/CustomerSlices";
-import { UserSlices } from "./slices/UserSlices";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { CustomerProfileSlice } from "./slices/CustomerProfileSlices";
+import { UserSlices } from "./slices/UserSlices";
 
 export const store = configureStore({
     reducer : {

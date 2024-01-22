@@ -13,6 +13,7 @@ import {
   Reviews,
   Shop,
   Tasks,
+  UserForm,
   UserLogin,
   Users
 } from "./ExportFiles"
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="customers" element={<Customers />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="users" element={<Users />} />
+            <Route path="user-form" element={<UserForm />} />
             <Route path="payments" element={<Payments />} />
             <Route path="tasks" element={<Tasks />} />
           </Route>
