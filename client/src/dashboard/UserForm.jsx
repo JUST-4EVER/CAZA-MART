@@ -33,8 +33,10 @@ function UserForm() {
                     const message = res?.data?.message
                     if(status){
                         toast.success(message);
+                        resetForm()
                     }else{
                         toast.error(message);
+                        // resetForm();
                     }
                 })
                 .catch((err) =>{
@@ -52,12 +54,12 @@ function UserForm() {
     }
     return (
         <div className="w-full p-3">
-            <div className="w-[95%] mx-auto lg:w-[75%] lg:ml-[20%] mt-16">
+            <div className="w-[95%] mx-auto lg:w-[80%] lg:ml-[18%] mt-10 p-4 shadow rounded border border-slate100">
                 <div className="w-full flex flex-row justify-between items-center">
                     <h1 className="text-lg font-medium tracking-widest">Create User</h1>
                     <Link to='/dashboard/users' className="px-4 py-2 shadow text-base font-thin rounded bg-[#FF6F61] text-white">Back</Link>
                 </div>
-                <div className="mt-10 w-full bg-slate-50  rounded px-4 py-5">
+                <div className="mt-10 w-full">
                     <Formik
                         enableReinitialize
                         onSubmit={handleSubmit}
@@ -76,7 +78,7 @@ function UserForm() {
                                 <div className="w-full space-y-1">
                                     <label className="text-basen font-light tracking-widest" htmlFor="">Email</label>
                                     <Field name='email' type='text' className='w-full p-2 outline-[#FF6F61] rounded shadow'
-                                        placeholder='Enter Username' />
+                                        placeholder='Enter Email' />
                                     <ErrorMessage className="text-red-500" component='div' name="email" />
                                 </div>
 
