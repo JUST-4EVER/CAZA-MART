@@ -5,11 +5,11 @@ import { FaRegUser, FaTasks } from "react-icons/fa";
 import { GrOverview } from "react-icons/gr";
 const DashboardSidebar = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) => {
   return (
-    <div className={`w-[50%] lg:w-[18%] fixed top-0 left-0 bottom-0 z-20 p-5 bg-[#FF6F61] text-white ${showMenu ? 'hidden lg:block' : 'block lg:hidden'}`}>
+    <div className={`w-[50%] lg:w-[15%] fixed top-0 left-0 bottom-0 z-20 p-5 bg-[#FF6F61] text-white ${showMenu ? 'hidden lg:block' : 'block lg:hidden'}`}>
       <div className='w-full flex flex-row justify-between lg:justify-start items-center gap-5'>
         <div className="flex flex-row justify-start items-center gap-3">
-          <MdOnlinePrediction size={30} />
-          <h1 className=' text-xl md:text-2xl text-start'> <span>CAZA</span> <span className=' text-black'>MART</span></h1>
+          <MdOnlinePrediction size={20} />
+          <h1 className='text-2xl text-start'> <span>CAZA</span> <span className=' text-black'>MART</span></h1>
         </div>
         <MdClose className="block lg:hidden cursor-pointer" onClick={hideMenu} size={20} />
       </div>

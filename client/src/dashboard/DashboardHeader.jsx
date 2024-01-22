@@ -18,7 +18,7 @@ const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =>
   )
   return (
     <div className="w-full bg-white p-3 shadow relative">
-      <div className="w-[90%] mx-auto lg:w-[75%] lg:ml-[20%]">
+      <div className="w-[90%] mx-auto lg:w-[80%] lg:ml-[18%]">
         <div className="w-full flex flex-row justify-between items-center gap-10">
           {
             showMenu ? <MdOutlineMenu className="block lg:hidden cursor-pointer" size={20} onClick={handleShowMenu} /> : <MdClose className="block lg:hidden cursor-pointer" size={20} onClick={handleShowMenu} />
