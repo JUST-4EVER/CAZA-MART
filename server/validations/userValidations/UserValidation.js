@@ -21,14 +21,14 @@ exports.registerUserValidation = (req , res , next) => {
 }
 
 exports.updateUserValidation = async (req , res , next) => {
-    const {username , email} = req.body;
+    const {username , email , status , role} = req.body;
     const updateUserValidation = joi.object({
         username : joi.string().trim().min(4).max(15).lowercase().required(),
         email : joi.string().trim().email().lowercase().required(),
         status : joi.string().trim().lowercase().required(),
         role : joi.string().trim().lowercase().required(),
     })
-    const {error} = updateUserValidation.validate({username, email});
+    const {error} = updateUserValidation.validate({username, email, status , role});
 
     if(error){
         return res.json({

@@ -6,7 +6,7 @@ exports.productValidations = (req,res,next) => {
         price : joi.number().required(), 
         discount:joi.number().required(), 
         quantity:joi.number().required(),
-        category_name : joi.string().trim().required(), 
+        category_id : joi.string().trim().required(), 
         availibility : joi.string().trim().required(), 
         size : joi.string().trim().required(), 
         color : joi.string().trim().required(), 

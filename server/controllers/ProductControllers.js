@@ -3,7 +3,7 @@ exports.createProduct = async (req, res) => {
     try {
         const {
             name, description, price, discount, quantity
-            , category_name, availibility, size, color, thumbnail
+            , category_id, availibility, size, color, thumbnail
         } = req.body;
 
         const createProduct = await prisma.products.create({
@@ -13,7 +13,7 @@ exports.createProduct = async (req, res) => {
                 price : price,
                 discount : discount,
                 quantity : quantity,
-                category_name : category_name,
+                category_id : category_id,
                 availibility : availibility,
                 size : size,
                 color : color,
@@ -43,7 +43,7 @@ exports.updateProduct = async(req,res) => {
     try {
         const {
             name, description, price, discount, quantity
-            , category_name, availibility, size, color, thumbnail
+            , category_id , availibility, size, color, thumbnail
         } = req.body;
         const id = req.params.id;
 
@@ -65,7 +65,7 @@ exports.updateProduct = async(req,res) => {
                 price : price,
                 discount : discount,
                 quantity : quantity,
-                category_name : category_name?.trim(),
+                category_id : category_id?.trim(),
                 availibility : availibility?.trim(),
                 size : size?.trim(),
                 color : color?.trim(),
