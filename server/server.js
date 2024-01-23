@@ -8,6 +8,7 @@ const CustomerProfileRoutes = require('./routes/CustomerProfileRoutes');
 const productRoutes = require('./routes/ProductRoutes');
 const orderRoutes = require('./routes/OrderRoutes');
 const reviewRoutes = require('./routes/ReviewRoutes');
+const CategoryRoutes = require('./routes/CategoryRoutes');
 
 
 const app = express();
@@ -17,14 +18,15 @@ const PORT_URL = process.env.PORT || 8800;
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser())
-app.use('/api',userRoutes)
-app.use('/api',userProfileRoutes)
-app.use('/api',customerRoutes)
-app.use('/api',CustomerProfileRoutes)
-app.use('/api',productRoutes)
-app.use('/api',orderRoutes)
-app.use('/api',reviewRoutes)
+app.use('/api', userRoutes)
+app.use('/api', userProfileRoutes)
+app.use('/api', customerRoutes)
+app.use('/api', CustomerProfileRoutes)
+app.use('/api', productRoutes)
+app.use('/api', orderRoutes)
+app.use('/api', reviewRoutes)
+app.use('/api', CategoryRoutes)
 
-app.listen(PORT_URL,() => {
+app.listen(PORT_URL, () => {
     console.log(`listening on port ${PORT_URL}`);
 })

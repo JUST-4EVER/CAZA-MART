@@ -85,11 +85,12 @@ model Products{
   price                   Float
   discount                Float
   quantity                Float
-  category_name           String
   availibility            String
   size                    String
   color                   String
   thumbnail               String
+  category_id             String @db.ObjectId
+  categories              Categories @relation(fields: [category_id],references: [id])
   orderItems              OrderItems[]
   reviews                 Reviews[]
   created_at              DateTime @default(now())
@@ -134,3 +135,11 @@ model Reviews {
   updated_at DateTime @default(now())
 }
 
+model Categories {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  category_name String
+  description String
+  products Products[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
