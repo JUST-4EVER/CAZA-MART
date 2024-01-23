@@ -84,7 +84,7 @@ exports.deleteCategory = async (req,res) => {
         if(!deleteCategory){
             return res.status(404).json({ status: false, message: 'Category not delete'})
         }
-        return res.status(404).json({ status: false, message: 'Category  deleted'})
+        return res.status(200).json({ status: true, message: 'Category  deleted'})
     } catch (error) {
         console.log('Error deleting categories', error.message);
         res.status(500).json({ status: false, message: error.message });

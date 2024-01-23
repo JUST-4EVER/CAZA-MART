@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegUser, FaTasks } from "react-icons/fa";
 import { GrOverview } from "react-icons/gr";
+import { TbCategoryPlus } from "react-icons/tb";
+
 const DashboardSidebar = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) => {
   return (
     <div className={`w-[50%] lg:w-[15%] fixed top-0 left-0 bottom-0 z-20 p-5 bg-[#FF6F61] text-white ${showMenu ? 'hidden lg:block' : 'block lg:hidden'}`}>
@@ -22,6 +24,10 @@ const DashboardSidebar = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =
         <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
           <MdDashboard size={18} />
           <Link to='/dashboard/products'>Products</Link>
+        </div>
+        <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
+          <TbCategoryPlus size={18}/>
+          <Link to='/dashboard/categories'>Categories</Link>
         </div>
         <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
           <CiShoppingCart size={20} />

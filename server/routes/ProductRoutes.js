@@ -3,7 +3,7 @@ const { createProduct, updateProduct, deleteProduct, getProduct, getProducts } =
 const userAuthentication = require('../middlewares/UserAuthenticate');
 const { productValidations } = require('../validations/productValidation/ProductValidation');
 const productRoutes = express.Router();
-productRoutes.post('/product/add', userAuthentication,productValidations,createProduct);
+productRoutes.post('/product/add',productValidations,createProduct);
 productRoutes.put('/product/:id',userAuthentication,productValidations, updateProduct);
 productRoutes.delete('/product/:id', deleteProduct);
 productRoutes.get('/product/:id', getProduct);
