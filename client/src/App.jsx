@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import {
   About,
+  Categories,
   Contact,
   CustomerChangePassword,
   CustomerLogin, CustomerOrders, CustomerProfile, CustomerRegister,
@@ -10,6 +11,7 @@ import {
   Dashboard,
   DashboardLayouts,
   Home, ItemCarts, Myaccount, Orders, PageLayout, Payments, PersonalInformation, Product, ProductDetail,
+  ProductForm,
   Reviews,
   Shop,
   Tasks,
@@ -53,11 +55,16 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<Product />} />
+            <Route path="product-form" element={<ProductForm />} />
+            <Route path="product-form/:id" element={<ProductForm />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="categories/:id" element={<Categories />} />
             <Route path="orders" element={<Orders />} />
             <Route path="customers" element={<Customers />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="users" element={<Users />} />
             <Route path="user-form" element={<UserForm />} />
+            <Route path="user-form/:id" element={<UserForm />} />
             <Route path="payments" element={<Payments />} />
             <Route path="tasks" element={<Tasks />} />
           </Route>

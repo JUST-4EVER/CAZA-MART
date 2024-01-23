@@ -19,7 +19,6 @@ const PersonalInformation = () => {
     const [images, setImages] = useState(null);
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
-    console.log('my images', images);
     const setupCloudinaryWidget = () => {
         if (window.cloudinary) {
             cloudinaryRef.current = window.cloudinary;

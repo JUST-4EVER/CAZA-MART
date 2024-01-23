@@ -86,8 +86,8 @@ model Products{
   discount                Float
   quantity                Float
   availibility            String
-  size                    String
-  color                   String
+  size                    String[]
+  color                   String[]
   thumbnail               String
   category_id             String @db.ObjectId
   categories              Categories @relation(fields: [category_id],references: [id])
