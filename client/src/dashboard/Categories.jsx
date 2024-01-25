@@ -1,23 +1,24 @@
-import { Modal } from '@mui/material';
+import { Box, Modal, Skeleton } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
 import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetCategoriesQuery, useUpdateCategoryMutation } from '../redux/slices/CategorySlices';
 import toast from 'react-hot-toast';
 import { DataGrid } from '@mui/x-data-grid';
 import { MdDelete, MdEdit } from 'react-icons/md';
 const Categories = () => {
+    const navigate = useNavigate();
     const [updateCategory] = useUpdateCategoryMutation();
     const [createCategory] = useCreateCategoryMutation();
     const [deleteCategory] = useDeleteCategoryMutation();
     const params_row = useLocation().state;
     const [searchText, setSearchText] = useState('');
-    const { data } = useGetCategoriesQuery();
+    const { data, isLoading } = useGetCategoriesQuery();
     const Categories = data?.getCategories || [];
     const initialValues = {
-        category_name: '',
-        description: ''
+        category_name: params_row?.category_name ||'',
+        description: params_row?.description || ''
     }
 
     const validationSchema = Yup.object({
@@ -56,13 +57,15 @@ const Categories = () => {
                         toast.error(err?.data);
                     });
             } else {
-                updateCategory({ id: id, updateCategory: { category_name, description } })
+                updateCategory({ id: id, updateCategory: { category_name : category_name , description : description} })
                     .then((res) => {
                         const status = res?.data?.status;
                         const message = res?.data?.message;
                         if (status) {
                             toast.success(message);
                             resetForm();
+                            navigate('/dashboard/categories');
+                            handleClose();
                         } else {
                             toast.error(message);
                         }
@@ -138,7 +141,7 @@ const Categories = () => {
             renderCell: (params) => (
                 <>
                     <Link to={`/dashboard/categories/${params.row.id}`} state={params.row}>
-                        <MdEdit size={20} className="cursor-pointer text-[#FF6F61]" />
+                        <MdEdit size={20} className="cursor-pointer text-[#FF6F61]" onClick={handleOpen} />
                     </Link>
                     <MdDelete
                         size={20}
@@ -149,6 +152,18 @@ const Categories = () => {
             ),
         },
     ];
+
+    const LoadingSkeleton = () => (
+        <Box
+            sx={{
+                height: "max-content"
+            }}
+        >
+            {[...Array(10)].map((_, index) => (
+                <Skeleton key={index} variant="rectangular" sx={{ my: 4, mx: 1 }} />
+            ))}
+        </Box>
+    );
 
     return (
         <div className="w-full p-3">
@@ -172,9 +187,14 @@ const Categories = () => {
                                 paginationModel: { page: 0, pageSize: 5 },
                             },
                         }}
+                        components={{
+                            LoadingOverlay : LoadingSkeleton
+                        }}
                         getRowId={(row) => row.id}
                         pageSizeOptions={[5, 10]}
-                        checkboxSelection />
+                        checkboxSelection 
+                        loading={isLoading}
+                        />
                 </div>
             </div>
 

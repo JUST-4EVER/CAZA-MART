@@ -165,15 +165,16 @@ const userLogin = async (req, res) => {
                 message : 'invalid email | username and password'
             })
         }
-        const UserToken = await jwt.sign({userId : userExist.id},JWT_USER_KEY);
-        res.cookie('UserToken',UserToken,{
+        const userToken = await jwt.sign({userId : userExist.id},JWT_USER_KEY);
+        res.cookie('userToken',userToken,{
             httpOnly : true,
             secure : false,
             expires : new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)
         })
         res.json({
             status : true,
-            UserToken,
+            message : 'login success',
+            userToken,
             userExist
         })
         

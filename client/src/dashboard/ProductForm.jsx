@@ -12,8 +12,8 @@ const ProductForm = () => {
     const [updateProduct] = useUpdateProductMutation();
     const { data } = useGetCategoriesQuery();
     const Categories = data?.getCategories || [];
-    console.log('categories',Categories);
-    const [images, setImages] = useState(null);
+    console.log('categories', Categories);
+    const [images, setImages] = useState(product_state?.thumbnail || null);
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
     const setupCloudinaryWidget = () => {
@@ -47,15 +47,15 @@ const ProductForm = () => {
     };
 
     const initialValues = {
-        name: '',
-        description: '',
-        price: '',
-        discount: '',
-        quantity: '',
-        category_id: '',
-        availibility: '',
-        size: '',
-        color: '',
+        name: product_state?.name || '',
+        description: product_state?.description || '',
+        price: product_state?.price || '',
+        discount: product_state?.discount || '',
+        quantity: product_state?.quantity || '',
+        category_id: product_state?.category_id || '',
+        availibility: product_state?.availibility || '',
+        size: product_state?.size || '',
+        color: product_state?.color || '',
     }
     const validationSchema = Yup.object({
         name: Yup.string().required('name required'),
@@ -66,13 +66,15 @@ const ProductForm = () => {
         category_id: Yup.string().required('category name required'),
         availibility: Yup.string().required('availibility required'),
     })
+
+    console.log('images', images);
     const handleSubmit = async (values, { resetForm }) => {
         try {
             const id = product_state?.id;
             const thumbnail = images;
-            const { name, price, discount, quantity, description, color, size, availibility , category_id} = values;
+            const { name, price, discount, quantity, description, color, size, availibility, category_id } = values;
             if (!id) {
-                createProduct ({ name, price, discount, quantity, description, color, size, category_id, availibility, thumbnail })
+                createProduct({ name, price, discount, quantity, description, color, size, category_id, availibility, thumbnail })
                     .then((res) => {
                         const status = res?.data?.status;
                         const message = res?.data?.message;
@@ -87,13 +89,19 @@ const ProductForm = () => {
                         toast.error(err?.data);
                     });
             } else {
-                updateProduct({ id: id, updateProduct: { name, price, discount, quantity, description, color, size, category_id, availibility, thumbnail } })
+                const thumbnail = images;
+                updateProduct({
+                    id: id, updateProduct: {
+                        name: name, price: price, discount: discount, quantity: quantity
+                        , description: description, color: color, size : size, category_id : category_id, 
+                        availibility : availibility, thumbnail : thumbnail
+                    }
+                })
                     .then((res) => {
                         const status = res?.data?.status;
                         const message = res?.data?.message;
                         if (status) {
                             toast.success(message);
-                            resetForm();
                         } else {
                             toast.error(message);
                         }
@@ -192,6 +200,10 @@ const ProductForm = () => {
                                             <Field name='color' type='checkbox' value='black' />
                                             <span>Black</span>
                                         </div>
+                                        <div className='w-full space-x-2'>
+                                            <Field name='color' type='checkbox' value='white' />
+                                            <span>White</span>
+                                        </div>
                                     </div>
                                     <ErrorMessage name='color' component='div' className='text-red-500' />
                                 </div>
@@ -229,7 +241,7 @@ const ProductForm = () => {
                             </div>
 
                             <button className="w-full bg-[#FF6F61] text-white py-2 px-4 rounded
-                        transition-all ease-in-out hover:bg-white hover:text-[#FF6F61]" type='submit'>Create Product</button>
+                        transition-all ease-in-out hover:bg-white hover:text-[#FF6F61]" type='submit'>{product_state?.id ? 'Update product' : 'Create Product'}</button>
 
                         </Form>
                     </Formik>

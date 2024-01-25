@@ -60,16 +60,16 @@ exports.updateProduct = async(req,res) => {
                 id : id            
             },
             data : {
-                name : name?.trim(),
-                description : description?.trim(),
+                name : name,
+                description : description,
                 price : price,
                 discount : discount,
                 quantity : quantity,
-                category_id : category_id?.trim(),
-                availibility : availibility?.trim(),
-                size : size?.trim(),
-                color : color?.trim(),
-                thumbnail : thumbnail?.trim()
+                category_id : category_id,
+                availibility : availibility,
+                size : size,
+                color : color,
+                thumbnail : thumbnail
             }
         })
 

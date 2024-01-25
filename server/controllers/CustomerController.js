@@ -91,7 +91,7 @@ const customerLogin = async (req, res) => {
 const getCustomers = async (req, res) => {
     try {
 
-        const customers = await prisma.customers.findMany();
+        const customers = await prisma.customers.findMany({ include: { customerProfiles: true } });
         if (customers.length == [] || customers.length < 0) {
             return res.json({
                 status: false,
@@ -193,7 +193,7 @@ const getCurrentCustomer = async (req, res) => {
         const customerId = req.customerId;
         const customer = await prisma.customers.findUnique({ where: { id: customerId } })
 
-        if(!customer){
+        if (!customer) {
             return res.json({
                 status: false,
                 message: 'user not found'
@@ -213,54 +213,54 @@ const getCurrentCustomer = async (req, res) => {
     }
 }
 
-const customerChangePassword = async(req,res) => {
+const customerChangePassword = async (req, res) => {
     try {
-        const { oldPassword , newPassword} = req.body;
+        const { oldPassword, newPassword } = req.body;
         const existingCustomer = await prisma.customers.findUnique({
-            where : {
-                id : req.customerId
+            where: {
+                id: req.customerId
             }
         })
 
-        if(!existingCustomer){
+        if (!existingCustomer) {
             return res.json({
-                status : false,
-                message : 'customer not existing'
+                status: false,
+                message: 'customer not existing'
             })
         }
 
-        const comparePassword = await bcrypt.compare(oldPassword , existingCustomer.password);
-        if(!comparePassword){
+        const comparePassword = await bcrypt.compare(oldPassword, existingCustomer.password);
+        if (!comparePassword) {
             return res.json({
-                status : false,
-                message : 'invalid old password'
+                status: false,
+                message: 'invalid old password'
             })
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         const updateCustomer = await prisma.customers.update({
-            where : {
-                id : req.customerId
+            where: {
+                id: req.customerId
             },
-            data : {
-                password : hashedPassword
+            data: {
+                password: hashedPassword
             }
         })
-        if(!updateCustomer){
+        if (!updateCustomer) {
             return res.json({
-                status : false,
-                message : 'Failled changing password'
+                status: false,
+                message: 'Failled changing password'
             })
         }
 
         return res.json({
-            status : true,
-            message : 'password changed'
+            status: true,
+            message: 'password changed'
         })
     } catch (error) {
         console.log('Error changing password');
         res.json({
-            status : false,
-            message : 'Failled changing password'
+            status: false,
+            message: 'Failled changing password'
         })
     }
 }

@@ -5,10 +5,10 @@ import { DataGrid } from "@mui/x-data-grid"
 import { styled } from '@mui/system';
 import { MdDelete, MdEdit } from "react-icons/md"
 import toast from 'react-hot-toast';
+import { Box, Skeleton } from '@mui/material';
 const Users = () => {
     const [searchText, setSearchText] = useState('');
-    const { data } = useGetUsersQuery();
-    console.log('data', data);
+    const { data , isLoading } = useGetUsersQuery();
     const [deleteUser] = useDeleteUserMutation();
     const users = data?.users || [];
     const filteringData = users?.filter(res => {
@@ -52,6 +52,19 @@ const Users = () => {
             ),
         },
     ];
+
+    const LoadingSkeleton = () => (
+        <Box
+            sx={{
+                height: "max-content"
+            }}
+        >
+            {[...Array(10)].map((_, index) => (
+                <Skeleton key={index} variant="rectangular" sx={{ my: 4, mx: 1 }} />
+            ))}
+        </Box>
+    );
+
     return (
         <div className="w-full p-3">
             <div className="w-[95%] mx-auto lg:w-[80%] lg:ml-[18%] mt-10 shadow rounded border border-slate-100 p-4">
@@ -60,7 +73,7 @@ const Users = () => {
                     <Link to='/dashboard/user-form' className="px-4 py-2 shadow text-base font-thin rounded bg-[#FF6F61] text-white">Add User</Link>
                 </div>
                 <div className="w-full md:w-[50%] mt-4">
-                    <input type="text" className="w-full px-3 py-2 rounded border outline-blue-600" placeholder="search doctor name ..."
+                    <input type="text" className="w-full px-3 py-2 rounded border outline-[#FF6F61]" placeholder="Search user's username ..."
                         onChange={(e) => setSearchText(e.target.value)} />
                 </div>
                 <div className="mt-10 w-full h-[400px]">
@@ -72,9 +85,14 @@ const Users = () => {
                                 paginationModel: { page: 0, pageSize: 5 },
                             },
                         }}
+                        components={{
+                            LoadingOverlay : LoadingSkeleton
+                        }}
                         getRowId={(row) => row.id}
                         pageSizeOptions={[5, 10]}
-                        checkboxSelection />
+                        checkboxSelection 
+                        loading = { isLoading}
+                        />
                 </div>
             </div>
         </div>
