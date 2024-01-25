@@ -48,7 +48,7 @@ exports.updateCategory = async (req, res) => {
         }
 
         return res.status(200).json({
-            status: false,
+            status: true,
             message: 'Category updated'
         })
 

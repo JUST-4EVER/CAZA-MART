@@ -17,7 +17,9 @@ import {
   Tasks,
   UserForm,
   UserLogin,
-  Users
+  UserProfileForm,
+  Users,
+  ViewProfile
 } from "./ExportFiles"
 import { useState } from "react";
 const App = () => {
@@ -67,6 +69,8 @@ const App = () => {
             <Route path="user-form/:id" element={<UserForm />} />
             <Route path="payments" element={<Payments />} />
             <Route path="tasks" element={<Tasks />} />
+            <Route path="view-user-profile" element={<ViewProfile />} />
+            <Route path="user-profile-form" element={<UserProfileForm />} />
           </Route>
         </Routes>
         <Toaster />

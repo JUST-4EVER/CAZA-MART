@@ -10,7 +10,7 @@ const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =>
       onMouseLeave={() => setShowSettings(false)}>
       <h1 className="text-lg font-light tracking-widest">User Profile</h1>
       <hr className="w-full" />
-      <Link className="text-base block tracking-wide" to='/view-user-profile'>view profile</Link>
+      <Link className="text-base block tracking-wide" to='/dashboard/view-user-profile'>View Profile</Link>
       <Link className="text-base block tracking-wide" to='/view-user-profile'>Logout</Link>
       <hr className="w-full" />
       <button className="text-base block tracking-wide text-red-500">Delete Account </button>
@@ -29,7 +29,7 @@ const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =>
           <div className="w-[40%] flex flex-row justify-end items-center gap-5">
             <MdOutlineNotificationsNone className="inline" size={30} />
             <div className="flex flex-row justify-start items-center gap-2" onClick={() => setShowSettings(!showSettings)}>
-              <img className="w-10 h-10 rounded-full object-center bg-cover" src="/public/images/duraan.jpg" alt="" />
+              <img className="w-10 h-10 rounded-full object-center bg-cover" src="/public/images/userProfile.png" alt="" />
 
               {
                 showSettings ? <IoIosArrowUp className="inline" size={20} /> : <IoIosArrowDown className="inline" size={20} />

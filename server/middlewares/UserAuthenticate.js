@@ -8,7 +8,6 @@ const userAuthentication = (req , res , next) => {
             message : 'unauthorized'
         })
     }
-
     const decoded = jwt.verify(token , JWT_USER_KEY);
     req.userId = decoded.userId;
     next();

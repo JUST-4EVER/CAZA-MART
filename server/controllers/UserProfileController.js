@@ -2,13 +2,17 @@ const { prisma } = require('../lib/lib')
 const addUserProfile = async (req, res) => {
     try {
         const userId = req.userId
-        const { fname, lname, bio, avatar, facebookLink, instagramLink, twitterLink, linkedinLink } = req.body;
+        const { fname, lname, bio, avatar, address , sex , phone, age , facebookLink, instagramLink, twitterLink, linkedinLink } = req.body;
         const addUserProfile = await prisma.userProfiles.create({
             data: {
                 user_id: userId,
                 fname: fname?.trim(),
                 lname: lname?.trim(),
                 bio: bio?.trim(),
+                age:age,
+                address : address,
+                sex : sex,
+                phone : phone,
                 avatar: avatar?.trim(),
                 facebookLink: facebookLink?.trim(),
                 instagramLink: instagramLink?.trim(),
@@ -39,14 +43,32 @@ const addUserProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
     try {
-
-        const { fname, lname, bio, avatar, facebookLink, instagramLink, linkedinLink, twitterLink } = req.body;
+        const userId = req.userId
+        console.log(userId);
+        const { email , username, fname, lname, bio, avatar, address , sex , phone, age , facebookLink, instagramLink, linkedinLink, twitterLink } = req.body;
         const id = req.params.id;
         const checkUserProfileExist = await prisma.userProfiles.findUnique({ where: { id: id } })
         if (!checkUserProfileExist) {
             return res.json({
                 status: false,
                 message: 'User profile not found'
+            })
+        }
+
+        const updateUser = await prisma.users.update({
+            where : {
+                id : userId
+            },
+            data : {
+                username : username,
+                email : email
+            }
+        })
+
+        if(!updateUser){
+            return res.json({
+                status : false,
+                message : 'your email and username not updated'
             })
         }
 
@@ -59,6 +81,10 @@ const updateUserProfile = async (req, res) => {
                 lname: lname?.trim(),
                 bio: bio?.trim(),
                 avatar: avatar?.trim(),
+                age:age,
+                address : address,
+                sex : sex,
+                phone : phone,
                 facebookLink: facebookLink?.trim(),
                 instagramLink: instagramLink?.trim(),
                 linkedinLink: linkedinLink?.trim(),

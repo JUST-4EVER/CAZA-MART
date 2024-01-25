@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../BASE_URL";
 import Cookies from "js-cookie";
 const setToken = (token) => {
-    Cookies.set('UserToken', token);
+    Cookies.set('userToken', token);
 }
 const getToken = () => {
     return Cookies.get('userToken');
@@ -41,8 +41,7 @@ export const UserSlices = createApi({
                 try {
                     const token = await queryFulfilled;
                     if (token) {
-                        setToken(token.data);
-                        console.log('userToken', token.data);
+                        setToken(token.data?.userToken);
                     }
                 } catch (error) {
                     console.log(error);
@@ -97,6 +96,7 @@ export const UserSlices = createApi({
 
 export const {
     useRegisterUserMutation,
+    useLoginUserMutation,
     useDeleteUserMutation,
     useUpdateUserMutation,
     useGetCurrentUserQuery,

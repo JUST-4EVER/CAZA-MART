@@ -1,9 +1,13 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from 'yup'
+import { useLoginUserMutation } from "../../redux/slices/UserSlices";
+import toast from "react-hot-toast";
 const UserLogin = () => {
+    const navigate = useNavigate();
+    const [loginUser] = useLoginUserMutation();
     const [showPassword, setShowPassword] = useState('password');
     const initialValues = {
         email: '',
@@ -13,8 +17,27 @@ const UserLogin = () => {
         email: Yup.string().email("Invalid email").required("Email is required"),
         password: Yup.string().required("Password is required")
     })
-    const handleSubmit = (values) => {
-        console.log(values);
+    const handleSubmit = (values, { resetForm }) => {
+        try {
+            const { email, password } = values;
+            loginUser({ email, password })
+                .then((res) => {
+                    const status = res?.data?.status;
+                    const message = res?.data?.message;
+                    if (status) {
+                        toast.success(message);
+                        resetForm();
+                        navigate('/dashboard');
+                    } else {
+                        toast.error(message);
+                    }
+                })
+                .catch(err => {
+                    toast.error(err?.data);
+                })
+        } catch (error) {
+            console.log('error submitting user login ', error.message);
+        }
     }
     return (
         <div className='w-full p-3'>
