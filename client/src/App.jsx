@@ -15,6 +15,7 @@ import {
   Reviews,
   Shop,
   Tasks,
+  UserChangePassword,
   UserForm,
   UserLogin,
   UserProfileForm,
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="tasks" element={<Tasks />} />
             <Route path="view-user-profile" element={<ViewProfile />} />
             <Route path="user-profile-form" element={<UserProfileForm />} />
+            <Route path="user-change-password" element={<UserChangePassword />} />
           </Route>
         </Routes>
         <Toaster />

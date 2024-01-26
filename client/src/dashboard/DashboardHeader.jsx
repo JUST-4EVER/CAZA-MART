@@ -2,18 +2,46 @@ import { useState } from "react";
 import { MdClose, MdOutlineMenu, MdOutlineNotificationsNone } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useDeleteUserMutation, useGetCurrentUserQuery } from "../redux/slices/UserSlices";
+import toast from "react-hot-toast";
 const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) => {
+  const { data } = useGetCurrentUserQuery();
+  const currentUser = data?.userExist || {};
+  const [deleteUser] = useDeleteUserMutation();
   const [showSettings, setShowSettings] = useState();
+  const handleLogout = () => {
+    Cookies.remove('userToken');
+    window.location.replace('/');
+  }
 
+  const deleteAccount = async (id) => {
+    if (confirm("are you sure you want to delete this account")) {
+      await deleteUser(id)
+        .then((res) => {
+          const status = res.data.status;
+          if (status) {
+            toast.success(res?.data?.message)
+            Cookies.remove('userToken');
+            window.location.replace('/');
+          } else {
+            toast.error(res?.data?.message)
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+    }
+  }
   const settingModel = (
     <div className="w-full bg-white lg:w-[20%] absolute right-0 lg:right-5 top-[4.25rem] p-5 shadow rounded space-y-3"
       onMouseLeave={() => setShowSettings(false)}>
       <h1 className="text-lg font-light tracking-widest">User Profile</h1>
       <hr className="w-full" />
       <Link className="text-base block tracking-wide" to='/dashboard/view-user-profile'>View Profile</Link>
-      <Link className="text-base block tracking-wide" to='/view-user-profile'>Logout</Link>
+      <Link className="text-base block tracking-wide" to='/dashboard/user-change-password'>Change password</Link>
+      <button className="text-base block tracking-wide" onClick={handleLogout}>Logout</button>
       <hr className="w-full" />
-      <button className="text-base block tracking-wide text-red-500">Delete Account </button>
+      <button className="text-base block tracking-wide text-red-500" onClick={() => deleteAccount(currentUser?.id)}>Delete Account </button>
     </div>
   )
   return (

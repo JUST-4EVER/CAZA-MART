@@ -6,6 +6,7 @@ import { UserSlices } from "./slices/UserSlices";
 import { productSlices } from "./slices/ProductSlices";
 import { categorySlices } from "./slices/CategorySlices";
 import { userProfileSlices } from "./slices/UserProfileSlices";
+import { reviewSlices } from "./slices/ReviewSlices";
 
 export const store = configureStore({
     reducer : {
@@ -15,6 +16,7 @@ export const store = configureStore({
         [productSlices.reducerPath]:productSlices.reducer,
         [categorySlices.reducerPath]:categorySlices.reducer,
         [userProfileSlices.reducerPath]:userProfileSlices.reducer,
+        [reviewSlices.reducerPath]:reviewSlices.reducer,
     },
     middleware : (getDefaultMiddleware)  => getDefaultMiddleware()
     .concat(CustomerSlices.middleware)
@@ -23,6 +25,7 @@ export const store = configureStore({
     .concat(productSlices.middleware)
     .concat(categorySlices.middleware)
     .concat(userProfileSlices.middleware)
+    .concat(reviewSlices.middleware)
 })
 
 setupListeners(store.dispatch);

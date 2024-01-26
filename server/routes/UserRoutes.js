@@ -2,7 +2,7 @@ const express = require('express');
 const {
     getUsers, registerUser,
     updateUser, deleteUser,
-    userLogin, getCurrentUser 
+    userLogin, getCurrentUser, userChangePassword 
 } = require('../controllers/UserController');
 const userAuthentication = require('../middlewares/UserAuthenticate');
 const {
@@ -17,4 +17,5 @@ userRoutes.put('/user/:id', updateUserValidation, updateUser)
 userRoutes.delete('/user/:id', deleteUser)
 userRoutes.get('/users', getUsers)
 userRoutes.get('/user/current', userAuthentication, getCurrentUser)
+userRoutes.post('/user/changePassword', userAuthentication, userChangePassword)
 module.exports = userRoutes;
