@@ -221,8 +221,16 @@ const ProductForm = () => {
                                             <span>MD</span>
                                         </div>
                                         <div className='w-full space-x-2'>
+                                            <Field name='size' type='checkbox' value='lg' />
+                                            <span>LG</span>
+                                        </div>
+                                        <div className='w-full space-x-2'>
                                             <Field name='size' type='checkbox' value='xl' />
                                             <span>XL</span>
+                                        </div>
+                                        <div className='w-full space-x-2'>
+                                            <Field name='size' type='checkbox' value='xs' />
+                                            <span>XS</span>
                                         </div>
                                     </div>
                                     <ErrorMessage name='size' component='div' className='text-red-500' />

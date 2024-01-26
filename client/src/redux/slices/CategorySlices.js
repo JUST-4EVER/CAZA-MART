@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../BASE_URL";
-
+import Cookies from "js-cookie";
+const getToken = () => {
+    return Cookies.get('userToken');
+}
 export const categorySlices = createApi({
     reducerPath: 'categorySlices',
     baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL
+        baseUrl: BASE_URL,
+        prepareHeaders: (headers) => {
+            const token = getToken();
+            if (token) {
+                headers.set('Authorization', token);
+            }
+            return headers;
+        }
     }),
     tagTypes: ['category'],
     endpoints: (builder) => ({
@@ -27,29 +37,29 @@ export const categorySlices = createApi({
             invalidatesTags: ['category']
         }),
 
-        deleteCategory : builder.mutation({
-            query : (id) => ({
-                url : `/category/${id}`,
+        deleteCategory: builder.mutation({
+            query: (id) => ({
+                url: `/category/${id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags : ['category']
+            invalidatesTags: ['category']
         }),
 
-        getCategories : builder.query({
-            query : () => {
+        getCategories: builder.query({
+            query: () => {
                 return {
-                    url : '/categories',
-                    method : 'GET'
+                    url: '/categories',
+                    method: 'GET'
                 }
             },
-            providesTags : ['category']
+            providesTags: ['category']
         })
 
     })
 })
 
 
-export const  {
+export const {
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,

@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../BASE_URL";
-
+import Cookies from "js-cookie";
+const getToken = () => {
+    return Cookies.get('customerToken')
+}
 export const reviewSlices = createApi({
     reducerPath: 'reviewSlices',
     baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL
+        baseUrl: BASE_URL,
+        prepareHeaders: (headers) => {
+            const token = getToken();
+            if (token) {
+                headers.set('authorization', token);
+            }
+            return headers;
+        }
     }),
     tagTypes: ['review'],
     endpoints: (builder) => ({
@@ -27,29 +37,29 @@ export const reviewSlices = createApi({
             invalidatesTags: ['review']
         }),
 
-        deleteReview : builder.mutation({
-            query : (id) => ({
-                url : `/review/${id}`,
+        deleteReview: builder.mutation({
+            query: (id) => ({
+                url: `/review/${id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags : ['review']
+            invalidatesTags: ['review']
         }),
 
-        getReviews : builder.query({
-            query : () => {
+        getReviews: builder.query({
+            query: () => {
                 return {
-                    url : '/reviews',
-                    method : 'GET'
+                    url: '/reviews',
+                    method: 'GET'
                 }
             },
-            providesTags : ['review']
+            providesTags: ['review']
         })
 
     })
 })
 
 
-export const  {
+export const {
     useCreateReviewMutation,
     useUpdateReviewMutation,
     useDeleteReviewMutation,

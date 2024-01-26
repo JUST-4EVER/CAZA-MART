@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../BASE_URL";
-
+import Cookies from "js-cookie";
+const getToken = () => {
+    return Cookies.get('userToken');
+}
 export const productSlices = createApi({
     reducerPath: 'productSlices',
     baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL
+        baseUrl: BASE_URL,
+        prepareHeaders: (headers) => {
+            const token = getToken();
+            if (token) {
+                headers.set('Authorization', token);
+            }
+            return headers;
+        }
     }),
     tagTypes: ['product'],
     endpoints: (builder) => ({

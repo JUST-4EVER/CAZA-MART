@@ -11,7 +11,7 @@ const {
     loginUserValidation
 } = require('../validations/userValidations/UserValidation');
 const userRoutes = express.Router();
-userRoutes.post('/user/register', registerUserValidation, registerUser)
+userRoutes.post('/user/register',registerUserValidation, registerUser)
 userRoutes.post('/user/login', loginUserValidation, userLogin)
 userRoutes.put('/user/:id', updateUserValidation, updateUser)
 userRoutes.delete('/user/:id', deleteUser)
