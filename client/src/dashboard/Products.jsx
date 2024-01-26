@@ -35,14 +35,14 @@ const Products = () => {
                                 <div className="relative w-full h-60 mb-5 bg-[#F6F6F6] p-3">
                                     <img src={product?.thumbnail} alt=""
                                         className=" w-full h-full object-cover rounded" />
-                                    <div className="absolute w-full h-full bg-black/20 group -bottom-10 
+                                </div>
+                                <div className="absolute w-full h-full bg-black/20 group -bottom-10 
                                         group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300
                                         flex flex-col justify-end items-end gap-5">
-                                        <Link to={`/dashboard/product-form/${product?.id}`}state={product}>
-                                            <MdEdit className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5" size={30} />
-                                        </Link>
-                                        <MdDelete className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5 mb-5" size={30} />
-                                    </div>
+                                    <Link to={`/dashboard/product-form/${product?.id}`} state={product}>
+                                        <MdEdit className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5" size={30} />
+                                    </Link>
+                                    <MdDelete className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5 mb-5" size={30} />
                                 </div>
                                 <div className="w-full space-y-2">
                                     <p className="text-base font-light italic tracking-widest">{product?.name}</p>

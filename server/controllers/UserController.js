@@ -213,6 +213,58 @@ const getCurrentUser = async (req, res) => {
     }
 }
 
+const userChangePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const existingUser = await prisma.users.findUnique({
+            where: {
+                id: req.userId
+            }
+        })
+
+        if (!existingUser) {
+            return res.json({
+                status: false,
+                message: 'user not existing'
+            })
+        }
+
+        const comparePassword = await bcrypt.compare(oldPassword, existingUser.password);
+        if (!comparePassword) {
+            return res.json({
+                status: false,
+                message: 'invalid old password'
+            })
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updateUser = await prisma.users.update({
+            where: {
+                id: req.userId
+            },
+            data: {
+                password: hashedPassword
+            }
+        })
+        if (!updateUser) {
+            return res.json({
+                status: false,
+                message: 'Failled changing password'
+            })
+        }
+
+        return res.json({
+            status: true,
+            message: 'password changed'
+        })
+    } catch (error) {
+        console.log('Error changing password');
+        res.json({
+            status: false,
+            message: 'Failled changing password'
+        })
+    }
+}
+
 
 module.exports = {
     getUsers,
@@ -220,5 +272,6 @@ module.exports = {
     updateUser,
     deleteUser,
     userLogin,
-    getCurrentUser
+    getCurrentUser,
+    userChangePassword
 }

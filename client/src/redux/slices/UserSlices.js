@@ -50,8 +50,14 @@ export const UserSlices = createApi({
             ,
             invalidatesTags: ['user']
         }),
-
-
+        ChangeUserPassword: builder.mutation({
+            query: (userPassword) => ({
+                url: 'user/changePassword',
+                method: 'POST',
+                body: userPassword
+            }),
+            invalidatesTags: ['user']
+        }),
         updateUser: builder.mutation({
             query: ({ id, updateUser }) => ({
                 url: `user/${id}`,
@@ -100,5 +106,6 @@ export const {
     useDeleteUserMutation,
     useUpdateUserMutation,
     useGetCurrentUserQuery,
-    useGetUsersQuery
+    useGetUsersQuery,
+    useChangeUserPasswordMutation
 } = UserSlices;

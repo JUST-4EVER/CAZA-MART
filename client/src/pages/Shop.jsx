@@ -6,18 +6,14 @@ import { FormatCurrency } from "../utilities/Number_Formatter";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdGridView } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
+import CardSkeleton from "../components/CardSkeleton";
+import { useGetProductsQuery } from "../redux/slices/ProductSlices";
 
 const Shop = () => {
     const [filters, setToggleFilter] = useState(false);
-    const [products, setProducts] = useState([]);
-    useEffect(() => {
-        getProducts();
-    }, [])
-    const getProducts = async () => {
-        await axios.get('https://dummyjson.com/products').then(res => {
-            setProducts(res.data?.products)
-        }).catch(err => console.log(err))
-    }
+    const { data, isLoading, isSuccess } = useGetProductsQuery();
+    const getProducts = data?.getProducts || [];
+
     return (
         <div className="w-full">
             <div className="w-full p-3 bg-black rounded">
@@ -95,19 +91,32 @@ const Shop = () => {
             }
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+
                 {
-                    products?.map(product => {
+                    isLoading && (
+                        <>
+                            {
+                                [...Array(10)].map((_, index) => {
+                                    return <CardSkeleton key={index} />
+                                })
+                            }
+                        </>
+                    )
+                }
+
+                {
+                    isSuccess && getProducts?.map(product => {
                         return (
                             <Link to={`/product-detail/${product?.id}`} className='w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out' key={product?.id} state={product}>
                                 {product?.thumbnail ? (<img className='w-full lg:w-64 h-64 bg-center object-center' src={product?.thumbnail} alt="" />)
                                     : (<Skeleton className="w-ull lg:w-64 h-64" />)}
                                 <div className='mt-3 space-y-3'>
 
-                                    {product?.title ? (<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.title}</h1>)
+                                    {product?.name ? (<h1 className='text-base font-light md:text-xl md:font-normal '>{product?.name}</h1>)
                                         : (<Skeleton className="w-full" />)}
                                     <p className='w-full flex flex-row justify-start items-center gap-5 text-sm font-light md:text-base md:font-normal'>
                                         {product?.price ? (<span>{FormatCurrency(product?.price)}</span>) : (<Skeleton className="w-full" />)}
-                                        {product?.price ? (<span className=' font-thin line-through'>{FormatCurrency(product?.price)}</span>) : (<Skeleton className="w-full" />)}
+                                        {product?.discount ? (<span className=' font-thin line-through'>{FormatCurrency(product?.discount)}</span>) : (<Skeleton className="w-full" />)}
                                     </p>
                                     <div className='w-full flex flex-row justify-start items-center gap-4'>
                                         {product?.price ? (<CiShoppingCart className='text-[#FF6F61]' size={27} />) : (<Skeleton className="w-10 h-10 rounded-full" />)}
