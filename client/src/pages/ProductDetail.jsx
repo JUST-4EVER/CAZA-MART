@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useGetCategoriesQuery } from "../redux/slices/CategorySlices";
 
 const ProductDetail = () => {
-    const { data : categoryData = [] } = useGetCategoriesQuery();
-    const categories = categoryData?.getCategories || []; 
+    const { data: categoryData = [] } = useGetCategoriesQuery();
+    const categories = categoryData?.getCategories || [];
     const [showReview, setShowReview] = useState(false);
     const product_detail = useLocation().state;
     const category = categories?.find(res => res?.id == product_detail?.category_id);
@@ -23,6 +23,26 @@ const ProductDetail = () => {
                     <hr className="w-full" />
                     <p className=" text-lg"> Category : <span className=" font-bold ">{category?.category_name}</span></p>
                     <p className="text-lg"> Availibility : <span className="text-green-500 font-bold">{product_detail?.availibility}</span></p>
+                    <div className="w-full flex flex-row justify-start gap-3">
+                        <span className="text-lg">Size:</span>
+                        <div className="w-full flex flex-row justify-start items-center gap-2">
+                            {
+                                product_detail?.size.map((size, index) => {
+                                    return <span key={index}>{size.toUpperCase()}</span>
+                                })
+                            }
+                        </div>
+                    </div>
+                    <div className="w-full flex flex-row justify-start gap-3">
+                        <span className="text-lg">Color:</span>
+                        <div className="w-full flex flex-row justify-start items-center gap-2">
+                            {
+                                product_detail?.color.map((color, index) => {
+                                    return <span key={index}>{color.slice(0,1).toUpperCase() + color.slice(1)}</span>
+                                })
+                            }
+                        </div>
+                    </div>
                     <hr className="w-full" />
                     <p>Description</p>
                     <p className="mt-3 text-base">{product_detail?.description}</p>
