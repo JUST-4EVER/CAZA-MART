@@ -1,4 +1,4 @@
-import { MdClose, MdDashboard, MdOnlinePrediction, MdPayment, MdRateReview } from "react-icons/md"
+import { MdClose, MdDashboard, MdOnlinePrediction } from "react-icons/md"
 import { Link } from "react-router-dom"
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegUser, FaTasks } from "react-icons/fa";
@@ -26,7 +26,7 @@ const DashboardSidebar = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =
           <Link to='/dashboard/products'>Products</Link>
         </div>
         <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
-          <TbCategoryPlus size={18}/>
+          <TbCategoryPlus size={18} />
           <Link to='/dashboard/categories'>Categories</Link>
         </div>
         <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
@@ -34,16 +34,8 @@ const DashboardSidebar = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =
           <Link to='/dashboard/orders'>Orders</Link>
         </div>
         <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
-          <MdPayment size={20} />
-          <Link to='/dashboard/payments'>Payments</Link>
-        </div>
-        <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
           <FaRegUser size={18} />
           <Link to='/dashboard/customers'>Customers</Link>
-        </div>
-        <div className="w-full tracking-widest text-lg font-light p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
-          <MdRateReview size={20} />
-          <Link to='/dashboard/reviews'>Reviews</Link>
         </div>
         <div className="w-full text-lg font-light tracking-widest p-1 hover:bg-white hover:text-[#FF6F61] hover:rounded flex flex-row justify-start items-center gap-2">
           <FaTasks size={16} />

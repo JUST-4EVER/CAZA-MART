@@ -2,7 +2,7 @@ const { prisma } = require('../lib/lib')
 exports.createProduct = async (req, res) => {
     try {
         const {
-            name, description, price, discount, quantity
+            name, description, price, discount, stock
             , category_id, availibility, size, color, thumbnail
         } = req.body;
 
@@ -12,7 +12,7 @@ exports.createProduct = async (req, res) => {
                 description : description,
                 price : price,
                 discount : discount,
-                quantity : quantity,
+                stock : stock,
                 category_id : category_id,
                 availibility : availibility,
                 size : size,
@@ -42,7 +42,7 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async(req,res) => {
     try {
         const {
-            name, description, price, discount, quantity
+            name, description, price, discount, stock
             , category_id , availibility, size, color, thumbnail
         } = req.body;
         const id = req.params.id;
@@ -64,7 +64,7 @@ exports.updateProduct = async(req,res) => {
                 description : description,
                 price : price,
                 discount : discount,
-                quantity : quantity,
+                stock : stock,
                 category_id : category_id,
                 availibility : availibility,
                 size : size,

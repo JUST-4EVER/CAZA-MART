@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import {
   About,
+  CancelPayment,
   Categories,
   Contact,
   CustomerChangePassword,
@@ -14,6 +15,7 @@ import {
   ProductForm,
   Reviews,
   Shop,
+  SuccessPayment,
   Tasks,
   UserChangePassword,
   UserForm,
@@ -43,6 +45,8 @@ const App = () => {
             <Route path="/products" element={<ItemCarts />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
+            <Route path="/cancel-payment" element={<CancelPayment />} />
+            <Route path="/success-payment" element={<SuccessPayment />} />
             <Route path="/product-detail/:id" element={<ProductDetail />} />
             <Route path="/my-account" element={<Myaccount />}>
               <Route index element={<CustomerOrders />} />
@@ -70,6 +74,7 @@ const App = () => {
             <Route path="user-form/:id" element={<UserForm />} />
             <Route path="payments" element={<Payments />} />
             <Route path="tasks" element={<Tasks />} />
+            <Route path="tasks/:id" element={<Tasks />} />
             <Route path="view-user-profile" element={<ViewProfile />} />
             <Route path="user-profile-form" element={<UserProfileForm />} />
             <Route path="user-change-password" element={<UserChangePassword />} />

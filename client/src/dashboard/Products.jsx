@@ -7,7 +7,6 @@ import { MdDelete, MdEdit } from "react-icons/md";
 const Products = () => {
     const { data, isLoading } = useGetProductsQuery();
     const getProducts = data?.getProducts || [];
-
     return (
         <div className="w-full p-3">
             <div className="w-[90%] h-auto mx-auto lg:w-[80%] lg:ml-[18%] mt-10 shadow rounded border border-slate100 p-4">
@@ -31,19 +30,20 @@ const Products = () => {
                     {
                         getProducts.map(product => {
                             return <div key={product?.id}
-                                className="w-full h-[90%] space-y-3 group">
+                                className=" relative w-full h-[90%] space-y-3 group">
                                 <div className="relative w-full h-60 mb-5 bg-[#F6F6F6] p-3">
                                     <img src={product?.thumbnail} alt=""
                                         className=" w-full h-full object-cover rounded" />
-                                </div>
-                                <div className="absolute w-full h-full bg-black/20 group -bottom-10 
+                                    <div className="absolute w-full h-full bg-black/20 group -bottom-10 
                                         group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300
                                         flex flex-col justify-end items-end gap-5">
-                                    <Link to={`/dashboard/product-form/${product?.id}`} state={product}>
-                                        <MdEdit className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5" size={30} />
-                                    </Link>
-                                    <MdDelete className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5 mb-5" size={30} />
+                                        <Link to={`/dashboard/product-form/${product?.id}`} state={product}>
+                                            <MdEdit className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5" size={30} />
+                                        </Link>
+                                        <MdDelete className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5 mb-5" size={30} />
+                                    </div>
                                 </div>
+
                                 <div className="w-full space-y-2">
                                     <p className="text-base font-light italic tracking-widest">{product?.name}</p>
                                     <p className="text-base font-normal">{product?.description.slice(0, 70)}..</p>

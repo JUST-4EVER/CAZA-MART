@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { IoIosAdd, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { FormatCurrency } from "../utilities/Number_Formatter";
-import { CiShoppingCart } from "react-icons/ci";
+import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { MdGridView } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import CardSkeleton from "../components/CardSkeleton";
 import { useGetProductsQuery } from "../redux/slices/ProductSlices";
 import { useGetCategoriesQuery } from "../redux/slices/CategorySlices";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/toolkit/slices/cartSlices";
+import { FaCartPlus } from "react-icons/fa6";
+import { GrView } from "react-icons/gr";
 
 const Shop = () => {
     const [filters, setToggleFilter] = useState(false);
@@ -19,6 +23,7 @@ const Shop = () => {
     const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [selectedColors, setSelectedColors] = useState([]);
+    const disPatch = useDispatch()
 
     const handleCategories = (categoryId) => {
         if (selectedCategoryIds.includes(categoryId)) {
@@ -91,7 +96,7 @@ const Shop = () => {
                             <div className="w-full">
                                 <h1>Filter by colors</h1>
                                 <div className="mt-5 w-full space-y-5">
-                                    {['black', 'red', 'blue','white'].map((color) => (
+                                    {['black', 'red', 'blue', 'white'].map((color) => (
                                         <p key={color} className="space-x-4">
                                             <input
                                                 type="checkbox"
@@ -137,107 +142,62 @@ const Shop = () => {
 
                 {isSuccess && selectedCategoryIds.length === 0 ? (
                     products?.map((product) => (
-                        <Link
-                            to={`/product-detail/${product?.id}`}
-                            className="w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out"
-                            key={product?.id}
-                            state={product}
-                        >
-                            {product?.thumbnail ? (
-                                <img
-                                    className="w-full lg:w-64 h-64 bg-center object-center"
-                                    src={product?.thumbnail}
-                                    alt=""
-                                />
-                            ) : (
-                                <Skeleton className="w-ull lg:w-64 h-64" />
-                            )}
-                            <div className="mt-3 space-y-3">
-                                {product?.name ? (
-                                    <h1 className="text-base font-light md:text-xl md:font-normal ">{product?.name}</h1>
-                                ) : (
-                                    <Skeleton className="w-full" />
-                                )}
-                                <p className="w-full flex flex-row justify-start items-center gap-5 text-sm font-light md:text-base md:font-normal">
-                                    {product?.price ? (
-                                        <span>{FormatCurrency(product?.price)}</span>
-                                    ) : (
-                                        <Skeleton className="w-full" />
-                                    )}
-                                    {product?.discount ? (
-                                        <span className=" font-thin line-through">
-                                            {FormatCurrency(product?.discount)}
-                                        </span>
-                                    ) : (
-                                        <Skeleton className="w-full" />
-                                    )}
-                                </p>
-                                <div className="w-full flex flex-row justify-start items-center gap-4">
-                                    {product?.price ? (
-                                        <CiShoppingCart className="text-[#FF6F61]" size={27} />
-                                    ) : (
-                                        <Skeleton className="w-10 h-10 rounded-full" />
-                                    )}
-                                    {product?.price ? (
-                                        <MdGridView className="text-[#FF6F61]" size={20} />
-                                    ) : (
-                                        <Skeleton className="w-10 h-10 rounded-full" />
-                                    )}
+                        <div key={product?.id}
+                            className=" relative w-full h-[90%] space-y-3 group">
+                            <div className="relative w-full h-60 mb-5 bg-[#F6F6F6] p-3">
+                                <img src={product?.thumbnail} alt=""
+                                    className=" w-full h-full object-cover rounded" />
+                                <div className="absolute w-full h-full bg-black/20 group -bottom-10 
+                            group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300
+                            flex  flex-row justify-center items-center gap-5">
+                                    <CiHeart
+                                        onClick={() => disPatch(addToCart(product))}
+                                        className="text-white bg-[#FF6F61] p-3 rounded-full shadow mr-5 mb-5" size={45} />
+                                    <FaCartPlus
+                                        onClick={() => disPatch(addToCart(product))}
+                                        className="text-white bg-[#FF6F61] p-3 rounded-full shadow mr-5 mb-5" size={45} />
+                                    <Link to={`/product-detail/${product?.id}`} state={product}
+                                    ><GrView className="text-white bg-[#FF6F61] p-3 rounded-full shadow mr-5 mb-5" size={45} /></Link>
                                 </div>
                             </div>
-                        </Link>
+
+                            <div className="w-full space-y-2">
+                                <Link to={`/product-detail/${product?.id}`} state={product} className="text-base font-light italic tracking-widest
+                                hover:text-[#FF6F61] transition-all duration-300">{product?.name}</Link>
+                                <p className="text-base font-normal">{product?.description.slice(0, 70)}..</p>
+                                <div className="w-full flex flex-row justify-between items-center">
+                                    <p className="text-base font-light italic tracking-widest">{FormatCurrency(product?.price)}</p>
+                                    <p className="text-base font-light italic tracking-widest line-through">{FormatCurrency(product?.discount)}</p>
+
+                                </div>
+                            </div>
+                        </div>
                     ))
                 ) : (
                     filteredProducts?.map((product) => (
-                        <Link
-                            to={`/product-detail/${product?.id}`}
-                            className="w-full p-4 space-y-3 hover:scale-110 transition-all ease-in-out"
-                            key={product?.id}
-                            state={product}
-                        >
-                            {product?.thumbnail ? (
-                                <img
-                                    className="w-full lg:w-64 h-64 bg-center object-center"
-                                    src={product?.thumbnail}
-                                    alt=""
-                                />
-                            ) : (
-                                <Skeleton className="w-ull lg:w-64 h-64" />
-                            )}
-                            <div className="mt-3 space-y-3">
-                                {product?.name ? (
-                                    <h1 className="text-base font-light md:text-xl md:font-normal ">{product?.name}</h1>
-                                ) : (
-                                    <Skeleton className="w-full" />
-                                )}
-                                <p className="w-full flex flex-row justify-start items-center gap-5 text-sm font-light md:text-base md:font-normal">
-                                    {product?.price ? (
-                                        <span>{FormatCurrency(product?.price)}</span>
-                                    ) : (
-                                        <Skeleton className="w-full" />
-                                    )}
-                                    {product?.discount ? (
-                                        <span className=" font-thin line-through">
-                                            {FormatCurrency(product?.discount)}
-                                        </span>
-                                    ) : (
-                                        <Skeleton className="w-full" />
-                                    )}
-                                </p>
-                                <div className="w-full flex flex-row justify-start items-center gap-4">
-                                    {product?.price ? (
-                                        <CiShoppingCart className="text-[#FF6F61]" size={27} />
-                                    ) : (
-                                        <Skeleton className="w-10 h-10 rounded-full" />
-                                    )}
-                                    {product?.price ? (
-                                        <MdGridView className="text-[#FF6F61]" size={20} />
-                                    ) : (
-                                        <Skeleton className="w-10 h-10 rounded-full" />
-                                    )}
+                        <div key={product?.id}
+                            className=" relative w-full h-[90%] space-y-3 group">
+                            <div className="relative w-full h-60 mb-5 bg-[#F6F6F6] p-3">
+                                <img src={product?.thumbnail} alt=""
+                                    className=" w-full h-full object-cover rounded" />
+                                <div className="absolute w-full h-full bg-black/20 group -bottom-10 
+                                group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300
+                                flex flex-col justify-end items-end gap-5">
+                                    <CiShoppingCart
+                                        onClick={() => disPatch(addToCart(product))}
+                                        className="text-white bg-[#FF6F61] p-1 rounded-full shadow mr-5 mb-5" size={30} />
                                 </div>
                             </div>
-                        </Link>
+                            <div className="w-full space-y-2">
+                                <Link to={`/product-detail/${product?.id}`} state={product} className="text-base font-light italic tracking-widest
+                                 hover:text-[#FF6F61] transition-all duration-300">{product?.name}</Link>
+                                <p className="text-base font-normal">{product?.description.slice(0, 70)}..</p>
+                                <div className="w-full flex flex-row justify-between items-center">
+                                    <p className="text-base font-light italic tracking-widest">{FormatCurrency(product?.price)}</p>
+                                    <p className="text-base font-light italic tracking-widest line-through">{FormatCurrency(product?.discount)}</p>
+                                </div>
+                            </div>
+                        </div>
                     ))
                 )}
             </div>

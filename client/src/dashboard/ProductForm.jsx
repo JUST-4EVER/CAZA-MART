@@ -51,7 +51,7 @@ const ProductForm = () => {
         description: product_state?.description || '',
         price: product_state?.price || '',
         discount: product_state?.discount || '',
-        quantity: product_state?.quantity || '',
+        stock: product_state?.stock || '',
         category_id: product_state?.category_id || '',
         availibility: product_state?.availibility || '',
         size: product_state?.size || '',
@@ -62,7 +62,7 @@ const ProductForm = () => {
         description: Yup.string().required('name description'),
         price: Yup.number().required('price required'),
         discount: Yup.number().required('discount required'),
-        quantity: Yup.number().required('quantity required'),
+        stock: Yup.number().required('stock required'),
         category_id: Yup.string().required('category name required'),
         availibility: Yup.string().required('availibility required'),
     })
@@ -72,9 +72,9 @@ const ProductForm = () => {
         try {
             const id = product_state?.id;
             const thumbnail = images;
-            const { name, price, discount, quantity, description, color, size, availibility, category_id } = values;
+            const { name, price, discount, stock, description, color, size, availibility, category_id } = values;
             if (!id) {
-                createProduct({ name, price, discount, quantity, description, color, size, category_id, availibility, thumbnail })
+                createProduct({ name, price, discount, stock, description, color, size, category_id, availibility, thumbnail })
                     .then((res) => {
                         const status = res?.data?.status;
                         const message = res?.data?.message;
@@ -92,7 +92,7 @@ const ProductForm = () => {
                 const thumbnail = images;
                 updateProduct({
                     id: id, updateProduct: {
-                        name: name, price: price, discount: discount, quantity: quantity
+                        name: name, price: price, discount: discount, stock: stock
                         , description: description, color: color, size : size, category_id : category_id, 
                         availibility : availibility, thumbnail : thumbnail
                     }
@@ -153,9 +153,9 @@ const ProductForm = () => {
                                     <ErrorMessage name='discount' component='div' className='text-red-500' />
                                 </div>
                                 <div className='w-full space-y-2'>
-                                    <label htmlFor="">Quantity</label>
-                                    <Field name='quantity' className='w-full outline-[#FF6F61] rounded border p-3' type='number' placeholder='Enter product quantity' />
-                                    <ErrorMessage name='quantity' component='div' className='text-red-500' />
+                                    <label htmlFor="">stock</label>
+                                    <Field name='stock' className='w-full outline-[#FF6F61] rounded border p-3' type='number' placeholder='Enter product stock' />
+                                    <ErrorMessage name='stock' component='div' className='text-red-500' />
                                 </div>
                             </div>
 

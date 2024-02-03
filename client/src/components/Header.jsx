@@ -3,7 +3,10 @@ import { MdSearch, MdOutlineAccountCircle, MdShoppingCart } from "react-icons/md
 import { MdOutlineMenu, MdClose } from "react-icons/md";
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+import { GrShop } from 'react-icons/gr';
 const Header = () => {
+	const itemCart = useSelector(state => state?.cart?.cart)
 	const token = Cookies.get('customerToken');
 	const [auth, setAuth] = useState(false);
 	useEffect(() => {
@@ -29,7 +32,7 @@ const Header = () => {
 	}, [])
 	const [showMenu, setShowMenu] = useState(true);
 	return (
-		<div className={`w-full bg-[#FFFFFF] z-30 sticky top-0 flex flex-col justify-start items-center gap-5 space-y-3 ${scroll ? ' shadow' : ''}`}>
+		<div className={`w-full bg-[#FFFFFF] z-40 sticky top-0 flex flex-col justify-start items-center gap-5 space-y-3 ${scroll ? ' shadow' : ''}`}>
 			<div className='w-[95%] md:w-[90%] mx-auto p-3 space-y-4'>
 				<div className='w-full grid grid-cols-2 md:grid-cols-3 justify-between items-center gap-5 p-1'>
 					<div className='w-full relative hidden md:block'>
@@ -51,8 +54,7 @@ const Header = () => {
 							}
 						</div>
 						<div className='w-fit md:w-full p-1 flex flex-row justify-start items-center gap-2'>
-							<MdShoppingCart className="inline cursor-pointer" size={20} />
-							<Link to='/item-cart' className='hidden md:block'>Cart</Link>
+							<Link to='/item-cart' className='inline'><GrShop className="inline cursor-pointer" size={25} /> <span className='py-1 px-2 rounded-full bg-[#FF6F61] text-white'>{itemCart?.length > 1 ? itemCart.length : 0}</span></Link>
 							{
 								showMenu ? <MdOutlineMenu onClick={() => setShowMenu(!showMenu)} className="ml-2 cursor-pointer block md:hidden" size={25} />
 									: <MdClose onClick={() => setShowMenu(!showMenu)} className="ml-2 cursor-pointer block md:hidden" size={25} />
@@ -63,7 +65,7 @@ const Header = () => {
 				<hr className='w-full' />
 				<div className={`w-full px-3 py-5 md:px-2 md:py-2 flex flex-col justify-start items-start 
 			space-y-5 md:space-y-0 md:flex-row md:justify-evenly md:items-center gap-5
-			${showMenu ? 'hidden md:flex' : 'flex h-[100vh] lg:h-fit'}`} onClick={()=>setShowMenu(!showMenu)}>
+			${showMenu ? 'hidden md:flex' : 'flex h-[100vh] lg:h-fit'}`} onClick={() => setShowMenu(!showMenu)}>
 					<Link to='/'>Home</Link>
 					<Link to='/shop'>Shop</Link>
 					<Link to='/about'>About</Link>

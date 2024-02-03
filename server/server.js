@@ -9,6 +9,8 @@ const productRoutes = require('./routes/ProductRoutes');
 const orderRoutes = require('./routes/OrderRoutes');
 const reviewRoutes = require('./routes/ReviewRoutes');
 const CategoryRoutes = require('./routes/CategoryRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+const paymentRoutes = require('./routes/PaymentRoutes');
 
 
 const app = express();
@@ -26,6 +28,8 @@ app.use('/api', productRoutes)
 app.use('/api', orderRoutes)
 app.use('/api', reviewRoutes)
 app.use('/api', CategoryRoutes)
+app.use('/api', taskRoutes)
+app.use('/api', paymentRoutes)
 
 app.listen(PORT_URL, () => {
     console.log(`listening on port ${PORT_URL}`);

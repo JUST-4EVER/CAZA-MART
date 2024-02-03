@@ -1,8 +1,14 @@
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { TbMoneybag } from "react-icons/tb";
+import { useGetOrdersQuery } from "../redux/slices/orderSlices";
+import { useGetCustomersQuery } from "../redux/slices/CustomerSlices";
 
 const Dashboard = () => {
+  const { data: orders = [], isLoading } = useGetOrdersQuery();
+  const getOrders = orders?.getOrders || [];
+  const { data : getCustomer = [] } = useGetCustomersQuery()
+  const customers = getCustomer?.customers || [];
   return (
     <div className="w-full p-3">
       <div className="w-[90%] mx-auto lg:w-[75%] lg:ml-[20%] mt-16">
@@ -20,7 +26,7 @@ const Dashboard = () => {
           <div className="w-full shadow bg-white rounded-md p-5 flex flex-row justify-between items-center">
             <div className="w-fit space-y-2">
               <h1 className="text-base tracking-widest">Orders</h1>
-              <p className="text-base font-bold">20,000</p>
+              <p className="text-base font-bold">{getOrders?.length}</p>
             </div>
             <div className="w-10 h-10 rounded-full border border-red-700 flex flex-row justify-center items-center">
               <CiShoppingCart className="inline text-red-700" size={20} />
@@ -29,7 +35,7 @@ const Dashboard = () => {
           <div className="w-full shadow bg-white rounded-md p-5 flex flex-row justify-between items-center">
             <div className="w-fit space-y-2">
               <h1 className="text-base tracking-widest">Customers</h1>
-              <p className="text-base font-bold">20,000</p>
+              <p className="text-base font-bold">{customers?.length}</p>
             </div>
             <div className="w-10 h-10 rounded-full border border-blue-700 flex flex-row justify-center items-center">
               <FaRegUser size={20} className="inline text-blue-700" />
