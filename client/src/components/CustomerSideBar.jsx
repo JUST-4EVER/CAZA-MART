@@ -6,10 +6,14 @@ import { IoInformationCircleOutline } from "react-icons/io5";
 import { MdOutlinePassword } from "react-icons/md";
 import Cookies from "js-cookie";
 const CustomerSideBar = () => {
+
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     Cookies.remove('customerToken');
-    window.location.replace('/');
+    window.location.replace('/')
   }
+ 
   return (
     <div className="w-full lg:w-[30%] h-[60vh] rounded shadow bg-white sticky">
       <div className="p-3 w-full grid grid-cols-1 justify-start items-center gap-5">
@@ -17,7 +21,7 @@ const CustomerSideBar = () => {
         <Link className="w-full flex flex-row justify-start items-center gap-5" to='/my-account/customer-profile'><CgProfile size={20} /> <span>My Profile</span></Link>
         <Link className="w-full flex flex-row justify-start items-center gap-5" to='/my-account/personal-information'><IoInformationCircleOutline size={20} /> <span>Personal Information</span></Link>
         <Link className="w-full flex flex-row justify-start items-center gap-5" to='/my-account/customer-change-password'><MdOutlinePassword size={20} /> <span>Change Password</span></Link>
-        <Link className="w-full flex flex-row justify-start items-center gap-5" to='/' onClick={handleLogout}><CiLogout size={20} /> <span>Logout</span></Link>
+        <button className="w-full flex flex-row justify-start items-center gap-5" onClick={() => handleLogout()}><CiLogout size={20} /> <span>Logout</span></button>
       </div>
     </div>
   )

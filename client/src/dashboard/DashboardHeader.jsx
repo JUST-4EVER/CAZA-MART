@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { MdClose, MdOutlineMenu, MdOutlineNotificationsNone } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDeleteUserMutation, useGetCurrentUserQuery } from "../redux/slices/UserSlices";
 import toast from "react-hot-toast";
+import { useGetCurrentUserProfileQuery } from "../redux/slices/UserProfileSlices";
 const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) => {
+  const navigate = useNavigate();
   const { data } = useGetCurrentUserQuery();
+  const { data: currentUserProfile = {} } = useGetCurrentUserProfileQuery()
+  const userProfile = currentUserProfile?.currentUserProfile || {};
   const currentUser = data?.userExist || {};
   const [deleteUser] = useDeleteUserMutation();
   const [showSettings, setShowSettings] = useState();
   const handleLogout = () => {
     Cookies.remove('userToken');
-    window.location.replace('/');
+    navigate('/');
+    setTimeout(() => {
+      toast.success('User logged out')
+    }, 2000)
   }
 
   const deleteAccount = async (id) => {
@@ -33,7 +40,8 @@ const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =>
     }
   }
   const settingModel = (
-    <div className="w-full bg-white lg:w-[20%] absolute right-0 lg:right-5 top-[4.25rem] p-5 shadow rounded space-y-3"
+    <div className="w-full bg-white lg:w-[20%] absolute right-0 lg:right-5 top-[4.25rem] p-5 shadow rounded space-y-3
+    z-10"
       onMouseLeave={() => setShowSettings(false)}>
       <h1 className="text-lg font-light tracking-widest">User Profile</h1>
       <hr className="w-full" />
@@ -57,7 +65,17 @@ const DashboardHeader = ({ setShowMenu, showMenu, handleShowMenu, hideMenu }) =>
           <div className="w-[40%] flex flex-row justify-end items-center gap-5">
             <MdOutlineNotificationsNone className="inline" size={30} />
             <div className="flex flex-row justify-start items-center gap-2" onClick={() => setShowSettings(!showSettings)}>
-              <img className="w-10 h-10 rounded-full object-center bg-cover" src="/public/images/userProfile.png" alt="" />
+              {
+                userProfile?.avatar ?
+                  (
+                    <img className="w-10 h-10 rounded-full object-center bg-cover" src={userProfile?.avatar} alt="" />
+                  )
+                  :
+                  (
+                    <img className="w-10 h-10 rounded-full object-center bg-cover" src="/public/images/userProfile.png" alt="" />
+                  )
+              }
+
 
               {
                 showSettings ? <IoIosArrowUp className="inline" size={20} /> : <IoIosArrowDown className="inline" size={20} />

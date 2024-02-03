@@ -17,6 +17,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
     "@mui/x-data-grid": "^6.19.1",
     "@reduxjs/toolkit": "^2.0.1",
+    "@stripe/stripe-js": "^2.4.0",
     "axios": "^1.6.2",
     "cloudinary-react": "^1.8.1",
     "formik": "^2.4.5",
